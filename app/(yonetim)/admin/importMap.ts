@@ -21,7 +21,6 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { CikisYapButonu as CikisYapButonu_8437e815fdc5cc19efd81b7f798a76a0 } from '../../../app/(yonetim)/admin/bilesenler/CikisYapButonu'
 import { MebalciIcon as MebalciIcon_035385f86c19d44b2ff9e2a43796aada } from '../../../app/(yonetim)/admin/bilesenler/MebalciIcon'
 import { MebalciLogo as MebalciLogo_e2a261745e3fae58597b03b01cb736dc } from '../../../app/(yonetim)/admin/bilesenler/MebalciLogo'
 import { GirisYardimi as GirisYardimi_48da3b7d588c3eda2a1809d72c497b08 } from '../../../app/(yonetim)/admin/bilesenler/GirisYardimi'
@@ -52,7 +51,6 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "./app/(yonetim)/admin/bilesenler/CikisYapButonu#CikisYapButonu": CikisYapButonu_8437e815fdc5cc19efd81b7f798a76a0,
   "./app/(yonetim)/admin/bilesenler/MebalciIcon#MebalciIcon": MebalciIcon_035385f86c19d44b2ff9e2a43796aada,
   "./app/(yonetim)/admin/bilesenler/MebalciLogo#MebalciLogo": MebalciLogo_e2a261745e3fae58597b03b01cb736dc,
   "./app/(yonetim)/admin/bilesenler/GirisYardimi#GirisYardimi": GirisYardimi_48da3b7d588c3eda2a1809d72c497b08,

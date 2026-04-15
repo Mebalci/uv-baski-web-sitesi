@@ -63,12 +63,6 @@ export default buildConfig({
           path: './app/(yonetim)/admin/bilesenler/MebalciLogo',
         },
       },
-      logout: {
-        Button: {
-          exportName: 'CikisYapButonu',
-          path: './app/(yonetim)/admin/bilesenler/CikisYapButonu',
-        },
-      },
     },
     dateFormat: 'dd.MM.yyyy',
     importMap: {
