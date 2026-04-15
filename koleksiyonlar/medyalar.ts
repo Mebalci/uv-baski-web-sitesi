@@ -1,8 +1,12 @@
+import { editorVeyaUstu } from '@/payload/erisim'
 import type { CollectionConfig } from 'payload'
 
 export const Medyalar: CollectionConfig = {
   access: {
+    create: editorVeyaUstu,
+    delete: editorVeyaUstu,
     read: () => true,
+    update: editorVeyaUstu,
   },
   admin: {
     group: 'Sistem',
