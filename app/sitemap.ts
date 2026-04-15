@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...urunler.map((urun) => ({ url: mutlakUrl(`/urunler/${urun.slug}`) })),
     ...kategoriler.map((kategori) => ({ url: mutlakUrl(`/kategoriler/${kategori.slug}`) })),
     ...portfoyler.map((kayit) => ({ url: mutlakUrl(`/portfoy/${kayit.slug}`) })),
-    ...kampanyalar.map((kayit) => ({ url: mutlakUrl(`/kampanyalar#${kayit.slug}`) })),
+    ...kampanyalar.map((kayit) => ({ url: mutlakUrl(`/kampanyalar/${kayit.slug}`) })),
     ...blogYazilari.map((yazi) => ({ url: mutlakUrl(`/blog/${yazi.slug}`) })),
   ]
 }

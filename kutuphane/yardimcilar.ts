@@ -17,9 +17,29 @@ export function paraBirimi(bedel?: number | null) {
   }).format(bedel)
 }
 
+export function siteUrlAl() {
+  const hamUrl =
+    process.env.SITE_URL ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL ||
+    'http://localhost:3000'
+
+  const temizUrl = hamUrl.trim()
+
+  if (!temizUrl) {
+    return 'http://localhost:3000'
+  }
+
+  if (/^https?:\/\//i.test(temizUrl)) {
+    return temizUrl
+  }
+
+  return `https://${temizUrl}`
+}
+
 export function mutlakUrl(yol = '/') {
-  const siteUrl = process.env.SITE_URL || 'http://localhost:3000'
-  return new URL(yol, siteUrl).toString()
+  return new URL(yol, siteUrlAl()).toString()
 }
 
 export function whatsappBaglantisi(mesaj?: string | null) {

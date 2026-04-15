@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next'
+import { siteUrlAl } from '@/kutuphane/yardimcilar'
 
 export default function robots(): MetadataRoute.Robots {
-  const host = process.env.SITE_URL || 'http://localhost:3000'
+  const host = siteUrlAl()
 
   return {
     host,
