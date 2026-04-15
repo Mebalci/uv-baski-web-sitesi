@@ -18,6 +18,7 @@ import {
 } from '@/kutuphane/icerikler'
 import { medyaUrlAl } from '@/kutuphane/medya'
 import { jsonLdBetigi } from '@/kutuphane/seo'
+import { siteUrlAl } from '@/kutuphane/yardimcilar'
 
 export const revalidate = 300
 
@@ -35,6 +36,7 @@ export default async function AnaSayfa() {
     ])
 
   const yaziVarmi = (deger?: string | null) => Boolean(deger?.trim())
+  const siteUrl = siteUrlAl()
 
   const heroKayitlari =
     anaSayfaIcerigi.hero_kayitlari?.length
@@ -215,7 +217,7 @@ export default async function AnaSayfa() {
           '@type': 'WebSite',
           description: siteAyarlari.aciklama,
           name: siteAyarlari.firma_adi,
-          url: process.env.SITE_URL || 'http://localhost:3000',
+          url: siteUrl,
         })}
         type="application/ld+json"
       />

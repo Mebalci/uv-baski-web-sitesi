@@ -16,11 +16,12 @@ import { SiteAyarlari } from '@/geneller/site-ayarlari'
 import { UstBilgi } from '@/geneller/ust-bilgi'
 import { epostaAdapterunuOlustur } from '@/payload/e-posta'
 import { r2HazirMi } from '@/kutuphane/ortam'
+import { siteUrlAl } from '@/kutuphane/yardimcilar'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
 const r2Etkin = r2HazirMi()
-const siteUrl = process.env.SITE_URL || 'http://localhost:3000'
+const siteUrl = siteUrlAl()
 
 export default buildConfig({
   admin: {

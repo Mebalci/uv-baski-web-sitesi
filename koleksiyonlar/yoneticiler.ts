@@ -1,4 +1,5 @@
 import { superAdminMi } from '@/payload/erisim'
+import { siteUrlAl } from '@/kutuphane/yardimcilar'
 import type { CollectionConfig } from 'payload'
 
 const yonetimErisimi: NonNullable<CollectionConfig['access']>['admin'] = ({ req }) => {
@@ -29,7 +30,7 @@ export const Yoneticiler: CollectionConfig = {
       generateEmailHTML: (args) => {
         const token = args?.token
         const user = args?.user
-        const siteUrl = process.env.SITE_URL || 'http://localhost:3000'
+        const siteUrl = siteUrlAl()
         const resetUrl = `${siteUrl}/admin/reset/${token || ''}`
         const ad =
           user && typeof user === 'object' && 'ad' in user ? String(user.ad || '') : 'Merhaba'
