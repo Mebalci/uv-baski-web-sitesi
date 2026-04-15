@@ -9,6 +9,8 @@ export const metadata = metadataOlustur({
   yol: '/portfoy',
 })
 
+export const dynamic = 'force-dynamic'
+
 export default async function PortfoySayfasi() {
   const portfoyler = await portfoyleriGetir()
 

@@ -9,7 +9,7 @@ export const metadata = metadataOlustur({
   yol: '/urunler',
 })
 
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
 
 export default async function UrunlerSayfasi() {
   const urunler = await urunleriGetir()

@@ -9,6 +9,8 @@ export const metadata = metadataOlustur({
   yol: '/kampanyalar',
 })
 
+export const dynamic = 'force-dynamic'
+
 export default async function KampanyalarSayfasi() {
   const kampanyalar = await kampanyalariGetir()
 

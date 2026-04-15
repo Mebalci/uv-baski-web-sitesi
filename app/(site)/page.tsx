@@ -20,7 +20,7 @@ import { medyaUrlAl } from '@/kutuphane/medya'
 import { jsonLdBetigi } from '@/kutuphane/seo'
 import { siteUrlAl } from '@/kutuphane/yardimcilar'
 
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
 
 export default async function AnaSayfa() {
   const [siteAyarlari, anaSayfaIcerigi, iletisim, kategoriler, urunler, portfoyler, kampanyalar, blogYazilari] =

@@ -10,6 +10,8 @@ export const metadata = metadataOlustur({
   yol: '/blog',
 })
 
+export const dynamic = 'force-dynamic'
+
 export default async function BlogSayfasi() {
   const yazilar = await blogYazilariniGetir()
 

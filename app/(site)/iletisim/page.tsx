@@ -9,6 +9,8 @@ export const metadata = metadataOlustur({
   yol: '/iletisim',
 })
 
+export const dynamic = 'force-dynamic'
+
 export default async function IletisimSayfasi() {
   const [siteAyarlari, iletisim] = await Promise.all([siteAyarlariGetir(), iletisimBilgileriGetir()])
 
