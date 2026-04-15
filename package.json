@@ -5,11 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --webpack --no-server-fast-refresh",
-    "build": "next build",
+    "build": "payload migrate && next build",
     "start": "next start",
     "lint": "eslint .",
+    "payload": "payload",
     "test": "node ./testler/calistir.mjs",
     "test:watch": "node --watch ./testler/calistir.mjs",
+    "payload:migrate": "payload migrate",
+    "payload:migrate:create": "payload migrate:create",
     "payload:importmap": "payload generate:importmap",
     "payload:turler": "payload generate:types"
   },
