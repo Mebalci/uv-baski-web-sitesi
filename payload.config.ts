@@ -22,6 +22,27 @@ import sharp from 'sharp'
 
 const r2Etkin = r2HazirMi()
 const siteUrl = siteUrlAl()
+const izinliOriginler = Array.from(
+  new Set(
+    [
+      process.env.SITE_URL,
+      process.env.NEXT_PUBLIC_SITE_URL,
+      process.env.VERCEL_PROJECT_PRODUCTION_URL,
+      process.env.VERCEL_URL,
+      'http://localhost:3000',
+    ]
+      .filter(Boolean)
+      .map((deger) => {
+        const temizDeger = String(deger).trim()
+
+        if (/^https?:\/\//i.test(temizDeger)) {
+          return temizDeger
+        }
+
+        return `https://${temizDeger}`
+      }),
+  ),
+)
 
 export default buildConfig({
   admin: {
@@ -74,8 +95,8 @@ export default buildConfig({
     Yoneticiler,
   ],
   cookiePrefix: 'mebalci',
-  cors: [siteUrl],
-  csrf: [siteUrl],
+  cors: izinliOriginler,
+  csrf: izinliOriginler,
   db: postgresAdapter({
     pool: {
       connectionString:
