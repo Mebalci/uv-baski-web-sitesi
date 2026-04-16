@@ -11,6 +11,15 @@ import {
 } from '@/kutuphane/icerikler'
 import { mutlakUrl } from '@/kutuphane/yardimcilar'
 
+type SitemapKaydi = {
+  seo?: {
+    indekslensin_mi?: boolean | null
+  } | null
+  slug: string
+  updatedAt?: string | null
+  yayin_tarihi?: string | null
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [urunler, kategoriler, portfoyler, kampanyalar, blogYazilari, sayfalar, entegrasyonAyarlari] = await Promise.all([
     urunleriGetir(),
@@ -26,10 +35,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return []
   }
 
-  const indekslenebilir = <T extends { seo?: { indekslensin_mi?: boolean | null } | null }>(kayit: T) =>
+  const indekslenebilir = (kayit: SitemapKaydi) =>
     kayit.seo?.indekslensin_mi !== false
-  const degisimTarihi = (kayit: { updatedAt?: string | null; yayin_tarihi?: string | null }) =>
-    kayit.updatedAt || kayit.yayin_tarihi || undefined
+  const degisimTarihi = (kayit: unknown) => {
+    if (!kayit || typeof kayit !== 'object') {
+      return undefined
+    }
+
+    const veri = kayit as {
+      updatedAt?: string | null
+      yayin_tarihi?: string | null
+    }
+
+    return veri.updatedAt || veri.yayin_tarihi || undefined
+  }
+  const sitemapKayitlarinaDonustur = (kayitlar: unknown[]): SitemapKaydi[] =>
+    kayitlar.filter(
+      (kayit): kayit is SitemapKaydi =>
+        Boolean(kayit && typeof kayit === 'object' && 'slug' in kayit && typeof kayit.slug === 'string'),
+    )
 
   const sabitler = ['/', '/urunler', '/portfoy', '/kampanyalar', '/blog', '/iletisim'].map(
     (url) => ({
@@ -41,35 +65,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...sabitler,
-    ...urunler.filter(indekslenebilir).map((urun) => ({
+    ...sitemapKayitlarinaDonustur(urunler).filter(indekslenebilir).map((urun) => ({
       lastModified: degisimTarihi(urun),
       url: mutlakUrl(`/urunler/${urun.slug}`),
     })),
-    ...kategoriler
+    ...sitemapKayitlarinaDonustur(kategoriler)
       .filter(indekslenebilir)
       .map((kategori) => ({
         lastModified: degisimTarihi(kategori),
         url: mutlakUrl(`/kategoriler/${kategori.slug}`),
       })),
-    ...portfoyler
+    ...sitemapKayitlarinaDonustur(portfoyler)
       .filter(indekslenebilir)
       .map((kayit) => ({
         lastModified: degisimTarihi(kayit),
         url: mutlakUrl(`/portfoy/${kayit.slug}`),
       })),
-    ...kampanyalar
+    ...sitemapKayitlarinaDonustur(kampanyalar)
       .filter(indekslenebilir)
       .map((kayit) => ({
         lastModified: degisimTarihi(kayit),
         url: mutlakUrl(`/kampanyalar/${kayit.slug}`),
       })),
-    ...blogYazilari
+    ...sitemapKayitlarinaDonustur(blogYazilari)
       .filter(indekslenebilir)
       .map((yazi) => ({
         lastModified: degisimTarihi(yazi),
         url: mutlakUrl(`/blog/${yazi.slug}`),
       })),
-    ...sayfalar.filter(indekslenebilir).map((sayfa) => ({
+    ...sitemapKayitlarinaDonustur(sayfalar).filter(indekslenebilir).map((sayfa) => ({
       lastModified: degisimTarihi(sayfa),
       url: mutlakUrl(`/${sayfa.slug}`),
     })),
