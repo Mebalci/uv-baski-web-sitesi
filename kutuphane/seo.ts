@@ -2,14 +2,6 @@ import type { Metadata } from 'next'
 
 import { mutlakUrl } from '@/kutuphane/yardimcilar'
 
-type JsonDegeri =
-  | string
-  | number
-  | boolean
-  | null
-  | { [k: string]: JsonDegeri }
-  | JsonDegeri[]
-
 type SeoAlani = {
   indekslensin_mi?: boolean | null
   kanonik_url?: string | null
@@ -22,7 +14,11 @@ type SeoAlani = {
     | null
   seo_aciklama?: string | null
   seo_baslik?: string | null
-  yapilandirilmis_veri?: JsonDegeri
+  yapilandirilmis_veri?: unknown
+}
+
+function kayitMi(deger: unknown): deger is Record<string, unknown> {
+  return Boolean(deger && typeof deger === 'object' && !Array.isArray(deger))
 }
 
 export function metadataOlustur({
@@ -33,18 +29,18 @@ export function metadataOlustur({
 }: {
   aciklama: string
   baslik: string
-  seo?: SeoAlani | null
+  seo?: unknown
   yol?: string
 }): Metadata {
-  const nihaiBaslik = seo?.seo_baslik || baslik
-  const nihaiAciklama = seo?.seo_aciklama || aciklama
-  const sayfaUrl = seo?.kanonik_url || mutlakUrl(yol)
-  const openGraphGorseli =
-    seo?.open_graph_gorseli && typeof seo.open_graph_gorseli === 'object'
-      ? seo.open_graph_gorseli
-      : null
+  const seoAlani = kayitMi(seo) ? (seo as SeoAlani) : null
+  const nihaiBaslik = seoAlani?.seo_baslik || baslik
+  const nihaiAciklama = seoAlani?.seo_aciklama || aciklama
+  const sayfaUrl = seoAlani?.kanonik_url || mutlakUrl(yol)
+  const openGraphGorseli = kayitMi(seoAlani?.open_graph_gorseli)
+    ? seoAlani.open_graph_gorseli
+    : null
   const gorselUrl = openGraphGorseli?.url || mutlakUrl('/og-varsayilan.jpg')
-  const indekslensinMi = seo?.indekslensin_mi !== false
+  const indekslensinMi = seoAlani?.indekslensin_mi !== false
 
   return {
     alternates: {
@@ -86,20 +82,22 @@ export function jsonLdBetigi(nesne: Record<string, unknown>) {
 }
 
 export function seoYapilandirilmisVeriAl(
-  seo?: SeoAlani | null,
+  seo?: unknown,
 ): Array<Record<string, unknown>> {
-  if (!seo?.yapilandirilmis_veri) {
+  const seoAlani = kayitMi(seo) ? (seo as SeoAlani) : null
+
+  if (!seoAlani?.yapilandirilmis_veri) {
     return []
   }
 
-  if (Array.isArray(seo.yapilandirilmis_veri)) {
-    return seo.yapilandirilmis_veri.filter(
-      (oge): oge is Record<string, unknown> => Boolean(oge && typeof oge === 'object'),
+  if (Array.isArray(seoAlani.yapilandirilmis_veri)) {
+    return seoAlani.yapilandirilmis_veri.filter(
+      (oge): oge is Record<string, unknown> => kayitMi(oge),
     )
   }
 
-  if (typeof seo.yapilandirilmis_veri === 'object') {
-    return [seo.yapilandirilmis_veri]
+  if (kayitMi(seoAlani.yapilandirilmis_veri)) {
+    return [seoAlani.yapilandirilmis_veri]
   }
 
   return []
