@@ -80,6 +80,7 @@ export const urunOrnekleri = [
 export const portfoyOrnekleri = [
   {
     baslik: 'Teknoloji Magazasi Lansman Kiti',
+    icerik: null,
     kapak_gorseli: null,
     kisa_aciklama: 'Lansman doneminde 42 magaza icin butunlesik stand ve yuzey uygulamalari.',
     musteri_adi: 'Perakende Teknoloji Markasi',
@@ -88,6 +89,7 @@ export const portfoyOrnekleri = [
   },
   {
     baslik: 'Otel Zinciri Oda Ici Baski Seti',
+    icerik: null,
     kapak_gorseli: null,
     kisa_aciklama: 'Kapi numarasi, yonlendirme ve dekoratif panel uretimlerinin uctan uca teslimi.',
     musteri_adi: 'Sehir Otelleri Grubu',
@@ -101,6 +103,8 @@ export const kampanyaOrnekleri = [
     baslangic_tarihi: '2026-04-01T00:00:00.000Z',
     baslik: 'Ilk Sipariste Tasarim Adaptasyon Destegi',
     bitis_tarihi: '2026-05-31T23:59:59.000Z',
+    icerik: null,
+    kapak_gorseli: null,
     kisa_aciklama: 'Kurumsal baski siparislerinde uretim oncesi gorsel uyarlama destegi.',
     one_cikart: true,
     sayac_goster: true,
@@ -112,12 +116,14 @@ export const kampanyaOrnekleri = [
 export const blogOrnekleri = [
   {
     baslik: 'UV Baski Nedir ve Hangi Yuzeylerde Kullanilir?',
+    icerik: null,
     kisa_aciklama: 'Kurumsal uygulamalarda UV baskinin avantajlarini sade bir dille anlattik.',
     seo: undefined,
     slug: 'uv-baski-nedir',
   },
   {
     baslik: 'Promosyon Urunlerinde Kalici Baski Icin 5 Ipucu',
+    icerik: null,
     kisa_aciklama: 'Adetli uretim oncesinde kaliteyi korumanin temel noktalari.',
     seo: undefined,
     slug: 'promosyon-urunlerinde-kalici-baski',
