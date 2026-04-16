@@ -181,7 +181,7 @@ export function HeroAlan({ istatistikler, kayitlar }: HeroAlanProps) {
           ) : null}
         </div>
 
-        {gorselVarMi ? (
+        {gorselUrl ? (
           <div className="relative min-h-[24rem] overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-100 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:min-h-[32rem] lg:min-h-[42rem]">
             <Image
               alt={aktifKayit.baslik || aktifKayit.etiket || 'Hero gorseli'}
