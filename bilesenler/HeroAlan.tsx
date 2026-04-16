@@ -36,6 +36,7 @@ export function HeroAlan({ istatistikler, kayitlar }: HeroAlanProps) {
   )
   const birdenFazla = slaytlar.length > 1
   const aktifKayit = slaytlar[aktifIndex] || slaytlar[0]
+  const gorselVarMi = Boolean(aktifKayit?.gorselUrl)
   const metrikler = istatistikler?.filter((oge) => oge?.deger || oge?.aciklama) || []
   const metinAlaniVarMi = Boolean(
     aktifKayit?.etiket ||
@@ -65,7 +66,11 @@ export function HeroAlan({ istatistikler, kayitlar }: HeroAlanProps) {
 
   return (
     <section className="relative overflow-hidden px-4 pt-24 sm:px-6 lg:px-8">
-      <div className="mx-auto grid min-h-[calc(100svh-2rem)] max-w-7xl gap-10 rounded-[2rem] bg-[linear-gradient(180deg,#ffffff,_#f8fafc)] px-6 pb-8 pt-10 shadow-[0_24px_80px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/70 md:min-h-[calc(100svh-3rem)] md:grid-cols-[0.95fr,1.05fr] md:items-end md:gap-14 md:px-10 md:pb-10 md:pt-12 lg:rounded-[2.75rem]">
+      <div
+        className={`mx-auto grid min-h-[calc(100svh-2rem)] max-w-7xl gap-10 rounded-[2rem] bg-[linear-gradient(180deg,#ffffff,_#f8fafc)] px-6 pb-8 pt-10 shadow-[0_24px_80px_rgba(15,23,42,0.08)] ring-1 ring-slate-200/70 md:min-h-[calc(100svh-3rem)] md:items-end md:gap-14 md:px-10 md:pb-10 md:pt-12 lg:rounded-[2.75rem] ${
+          gorselVarMi ? 'md:grid-cols-[0.95fr,1.05fr]' : 'md:grid-cols-1'
+        }`}
+      >
         <div className={`flex max-w-3xl flex-col justify-end ${metinAlaniVarMi ? '' : 'hidden md:flex'}`}>
           {aktifKayit.etiket ? (
             <div className="inline-flex w-fit items-center rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.28em] text-slate-500 backdrop-blur">
@@ -175,8 +180,8 @@ export function HeroAlan({ istatistikler, kayitlar }: HeroAlanProps) {
           ) : null}
         </div>
 
-        <div className="relative min-h-[24rem] overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-100 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:min-h-[32rem] lg:min-h-[42rem]">
-          {aktifKayit.gorselUrl ? (
+        {gorselVarMi ? (
+          <div className="relative min-h-[24rem] overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-100 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:min-h-[32rem] lg:min-h-[42rem]">
             <Image
               alt={aktifKayit.baslik || aktifKayit.etiket || 'Hero gorseli'}
               className="object-cover"
@@ -185,10 +190,8 @@ export function HeroAlan({ istatistikler, kayitlar }: HeroAlanProps) {
               sizes="(max-width: 1024px) 100vw, 50vw"
               src={aktifKayit.gorselUrl}
             />
-          ) : (
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(15,23,42,0.12),_transparent_38%),linear-gradient(180deg,#f8fafc,#e2e8f0)]" />
-          )}
-        </div>
+          </div>
+        ) : null}
       </div>
     </section>
   )
