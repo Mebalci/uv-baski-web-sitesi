@@ -2,6 +2,14 @@ import type { Metadata } from 'next'
 
 import { mutlakUrl } from '@/kutuphane/yardimcilar'
 
+type JsonDegeri =
+  | string
+  | number
+  | boolean
+  | null
+  | { [k: string]: JsonDegeri }
+  | JsonDegeri[]
+
 type SeoAlani = {
   indekslensin_mi?: boolean | null
   kanonik_url?: string | null
@@ -14,13 +22,7 @@ type SeoAlani = {
     | null
   seo_aciklama?: string | null
   seo_baslik?: string | null
-  yapilandirilmis_veri?:
-    | string
-    | number
-    | boolean
-    | Record<string, unknown>
-    | Array<Record<string, unknown> | string | number | boolean | null | unknown[]>
-    | null
+  yapilandirilmis_veri?: JsonDegeri
 }
 
 export function metadataOlustur({
