@@ -36,7 +36,8 @@ export function HeroAlan({ istatistikler, kayitlar }: HeroAlanProps) {
   )
   const birdenFazla = slaytlar.length > 1
   const aktifKayit = slaytlar[aktifIndex] || slaytlar[0]
-  const gorselVarMi = Boolean(aktifKayit?.gorselUrl)
+  const gorselUrl = aktifKayit?.gorselUrl || null
+  const gorselVarMi = Boolean(gorselUrl)
   const metrikler = istatistikler?.filter((oge) => oge?.deger || oge?.aciklama) || []
   const metinAlaniVarMi = Boolean(
     aktifKayit?.etiket ||
@@ -188,7 +189,7 @@ export function HeroAlan({ istatistikler, kayitlar }: HeroAlanProps) {
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
-              src={aktifKayit.gorselUrl}
+              src={gorselUrl}
             />
           </div>
         ) : null}
