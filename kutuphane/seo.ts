@@ -14,7 +14,13 @@ type SeoAlani = {
     | null
   seo_aciklama?: string | null
   seo_baslik?: string | null
-  yapilandirilmis_veri?: Record<string, unknown> | Record<string, unknown>[] | null
+  yapilandirilmis_veri?:
+    | string
+    | number
+    | boolean
+    | Record<string, unknown>
+    | Array<Record<string, unknown> | string | number | boolean | null | unknown[]>
+    | null
 }
 
 export function metadataOlustur({
