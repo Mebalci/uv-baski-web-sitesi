@@ -81,6 +81,14 @@ const altBilgiOrnek = {
   metin: 'Kurumsal markalar icin UV baski, promosyon ve magaza ici uygulamalari tek uretim hattinda planliyoruz.',
 }
 
+const entegrasyonAyarlariOrnek = {
+  google_analytics_olcum_kimligi: '',
+  google_search_console_dogrulama: '',
+  google_tag_manager_kimligi: '',
+  robots_engellenen_yollar: '',
+  site_indekslensin_mi: true,
+}
+
 async function koleksiyonBul(slug: string, siralama = '-createdAt') {
   const payload = await payloadAl()
 
@@ -162,6 +170,14 @@ export async function iletisimBilgileriGetir() {
     return (await globalBul('iletisim_bilgileri')) || iletisimOrnek
   } catch {
     return iletisimOrnek
+  }
+}
+
+export async function entegrasyonAyarlariGetir() {
+  try {
+    return (await globalBul('entegrasyon_ayarlari')) || entegrasyonAyarlariOrnek
+  } catch {
+    return entegrasyonAyarlariOrnek
   }
 }
 

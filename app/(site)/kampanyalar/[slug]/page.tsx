@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { ZenginIcerik } from '@/bilesenler/ZenginIcerik'
 import { kampanyaGetir } from '@/kutuphane/icerikler'
 import { medyaUrlAl } from '@/kutuphane/medya'
-import { metadataOlustur } from '@/kutuphane/seo'
+import { jsonLdBetigi, metadataOlustur, seoYapilandirilmisVeriAl } from '@/kutuphane/seo'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -94,6 +94,14 @@ export default async function KampanyaDetaySayfasi({ params }: Props) {
             <ZenginIcerik icerik={kampanya.icerik} />
           </div>
         ) : null}
+
+        {seoYapilandirilmisVeriAl(kampanya.seo).map((oge, index) => (
+          <script
+            dangerouslySetInnerHTML={jsonLdBetigi(oge)}
+            key={index}
+            type="application/ld+json"
+          />
+        ))}
       </div>
     </section>
   )

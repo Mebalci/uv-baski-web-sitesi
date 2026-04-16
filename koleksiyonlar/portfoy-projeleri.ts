@@ -12,21 +12,29 @@ export const PortfoyProjeleri: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['baslik', 'musteri_adi', 'durum'],
-    group: 'Kurumsal İçerik',
+    group: 'Kurumsal Icerik',
     useAsTitle: 'baslik',
   },
   labels: {
-    plural: 'Portföy Projeleri',
-    singular: 'Portföy Projesi',
+    plural: 'Portfoy Projeleri',
+    singular: 'Portfoy Projesi',
   },
   fields: [
     ...ortakMetinAlanlari(),
     {
-      label: 'Müşteri Adı',
+      admin: {
+        description:
+          'Referansin hangi marka veya musteriye ait oldugunu yazin. Gorunmesini istemiyorsaniz bos birakabilirsiniz.',
+      },
+      label: 'Musteri Adi',
       name: 'musteri_adi',
       type: 'text',
     },
     {
+      admin: {
+        description:
+          'Detay sayfasinda kapak gorseline ek olarak gosterilecek ek proje gorselleri. Once kapak gorselini secin, sonra galeri ekleyin.',
+      },
       label: 'Galeri',
       name: 'galeri',
       relationTo: 'medyalar',
@@ -34,12 +42,20 @@ export const PortfoyProjeleri: CollectionConfig = {
       hasMany: true,
     },
     {
+      admin: {
+        description:
+          'Projenin hedefini, uygulama detaylarini ve ortaya cikan sonucu anlatan zengin icerik alanidir.',
+      },
       editor: lexicalEditor(),
-      label: 'Proje Özeti',
+      label: 'Proje Ozeti',
       name: 'icerik',
       type: 'richText',
     },
     {
+      admin: {
+        description:
+          'Kisa bir referans yorumu, ozet not veya proje sonucu metni yazabilirsiniz. Liste ve detay anlatimini destekler.',
+      },
       label: 'Referans Notu',
       name: 'referans_notu',
       type: 'textarea',

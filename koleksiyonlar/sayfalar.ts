@@ -12,7 +12,7 @@ export const Sayfalar: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['baslik', 'slug', 'durum'],
-    group: 'Kurumsal İçerik',
+    group: 'Kurumsal Icerik',
     useAsTitle: 'baslik',
   },
   labels: {
@@ -22,8 +22,12 @@ export const Sayfalar: CollectionConfig = {
   fields: [
     ...ortakMetinAlanlari(),
     {
+      admin: {
+        description:
+          'Bu alan sayfanin govde icerigidir. Hakkimizda, KVKK, Cerez Politikasi, SSS veya kurumsal tanitim sayfalari burada olusturulur.',
+      },
       editor: lexicalEditor(),
-      label: 'Sayfa İçeriği',
+      label: 'Sayfa Icerigi',
       name: 'icerik',
       type: 'richText',
     },

@@ -12,7 +12,7 @@ export const Kampanyalar: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['baslik', 'baslangic_tarihi', 'bitis_tarihi', 'durum'],
-    group: 'Kurumsal İçerik',
+    group: 'Kurumsal Icerik',
     useAsTitle: 'baslik',
   },
   labels: {
@@ -22,8 +22,12 @@ export const Kampanyalar: CollectionConfig = {
   fields: [
     ...ortakMetinAlanlari(),
     {
+      admin: {
+        description:
+          'Kampanya detay sayfasinda gosterilecek zengin icerik alanidir. Kosullar, kapsam ve teslim detaylari burada anlatilabilir.',
+      },
       editor: lexicalEditor(),
-      label: 'Kampanya İçeriği',
+      label: 'Kampanya Icerigi',
       name: 'icerik',
       type: 'richText',
     },
@@ -32,8 +36,10 @@ export const Kampanyalar: CollectionConfig = {
         date: {
           pickerAppearance: 'dayAndTime',
         },
+        description:
+          'Kampanyanin baslayacagi tarih. Sayaç veya listeleme mantigi bu tarihe gore yorumlanabilir.',
       },
-      label: 'Başlangıç Tarihi',
+      label: 'Baslangic Tarihi',
       name: 'baslangic_tarihi',
       required: true,
       type: 'date',
@@ -43,21 +49,29 @@ export const Kampanyalar: CollectionConfig = {
         date: {
           pickerAppearance: 'dayAndTime',
         },
+        description:
+          'Kampanyanin sona erecegi tarih. Search ve kullanici deneyimi icin gecmis kampanyalari zamaninda kapatmaniz onerilir.',
       },
-      label: 'Bitiş Tarihi',
+      label: 'Bitis Tarihi',
       name: 'bitis_tarihi',
       required: true,
       type: 'date',
     },
     {
+      admin: {
+        description: 'Acik oldugunda ana sayfa veya liste alanlarinda kampanya one cikarilabilir.',
+      },
       defaultValue: false,
-      label: 'Öne Çıkart',
+      label: 'One Cikart',
       name: 'one_cikart',
       type: 'checkbox',
     },
     {
+      admin: {
+        description: 'Acik oldugunda kampanya sayfalarinda kalan sure sayaci gostermek icin kullanilir.',
+      },
       defaultValue: true,
-      label: 'Sayaç Göster',
+      label: 'Sayac Goster',
       name: 'sayac_goster',
       type: 'checkbox',
     },

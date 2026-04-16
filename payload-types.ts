@@ -105,6 +105,7 @@ export interface Config {
     alt_bilgi: AltBilgi;
     iletisim_bilgileri: IletisimBilgileri;
     ana_sayfa_icerigi: AnaSayfaIcerigi;
+    entegrasyon_ayarlari: EntegrasyonAyarlari;
   };
   globalsSelect: {
     site_ayarlari: SiteAyarlariSelect<false> | SiteAyarlariSelect<true>;
@@ -112,6 +113,7 @@ export interface Config {
     alt_bilgi: AltBilgiSelect<false> | AltBilgiSelect<true>;
     iletisim_bilgileri: IletisimBilgileriSelect<false> | IletisimBilgileriSelect<true>;
     ana_sayfa_icerigi: AnaSayfaIcerigiSelect<false> | AnaSayfaIcerigiSelect<true>;
+    entegrasyon_ayarlari: EntegrasyonAyarlariSelect<false> | EntegrasyonAyarlariSelect<true>;
   };
   locale: null;
   widgets: {
@@ -186,19 +188,19 @@ export interface Medyalar {
 export interface Urunler {
   id: number;
   /**
-   * İçeriğin ana başlığıdır. Kartlarda ve detay sayfasında görünür.
+   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
    */
   baslik: string;
   /**
-   * URL içinde kullanılacak kısa isimdir. Türkçe karakter ve boşluk yerine kısa, anlaşılır bir yapı tercih edin.
+   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
    */
   slug: string;
   /**
-   * Kartlarda, liste görünümünde veya üst açıklama alanlarında özet olarak kullanılır.
+   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu içerik için öne çıkan ana görseldir. Liste kartlarında ve detay sayfasında kullanılır.
+   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -260,28 +262,31 @@ export interface Urunler {
    */
   sira_no?: number | null;
   /**
-   * Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
    */
   seo?: {
     /**
-     * Google sonuçlarında görünen başlık. 70 karakterin altında tutun.
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
      */
     seo_baslik?: string | null;
     /**
-     * Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
      */
     seo_aciklama?: string | null;
     /**
-     * Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
     indekslensin_mi?: boolean | null;
     /**
-     * İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
      */
     yapilandirilmis_veri?:
       | {
@@ -294,7 +299,7 @@ export interface Urunler {
       | null;
   };
   /**
-   * Bu alan editöre hızlı bir hatırlatma sağlar. İçerik doğrulaması için teknik alanların da dolu olması gerekir.
+   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
    */
   seo_kontrol_notu?: string | null;
   updatedAt: string;
@@ -307,19 +312,19 @@ export interface Urunler {
 export interface UrunKategorileri {
   id: number;
   /**
-   * İçeriğin ana başlığıdır. Kartlarda ve detay sayfasında görünür.
+   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
    */
   baslik: string;
   /**
-   * URL içinde kullanılacak kısa isimdir. Türkçe karakter ve boşluk yerine kısa, anlaşılır bir yapı tercih edin.
+   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
    */
   slug: string;
   /**
-   * Kartlarda, liste görünümünde veya üst açıklama alanlarında özet olarak kullanılır.
+   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu içerik için öne çıkan ana görseldir. Liste kartlarında ve detay sayfasında kullanılır.
+   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   one_cikan?: boolean | null;
@@ -336,28 +341,31 @@ export interface UrunKategorileri {
    */
   sira_no?: number | null;
   /**
-   * Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
    */
   seo?: {
     /**
-     * Google sonuçlarında görünen başlık. 70 karakterin altında tutun.
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
      */
     seo_baslik?: string | null;
     /**
-     * Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
      */
     seo_aciklama?: string | null;
     /**
-     * Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
     indekslensin_mi?: boolean | null;
     /**
-     * İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
      */
     yapilandirilmis_veri?:
       | {
@@ -370,7 +378,7 @@ export interface UrunKategorileri {
       | null;
   };
   /**
-   * Bu alan editöre hızlı bir hatırlatma sağlar. İçerik doğrulaması için teknik alanların da dolu olması gerekir.
+   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
    */
   seo_kontrol_notu?: string | null;
   updatedAt: string;
@@ -383,23 +391,32 @@ export interface UrunKategorileri {
 export interface PortfoyProjeleri {
   id: number;
   /**
-   * İçeriğin ana başlığıdır. Kartlarda ve detay sayfasında görünür.
+   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
    */
   baslik: string;
   /**
-   * URL içinde kullanılacak kısa isimdir. Türkçe karakter ve boşluk yerine kısa, anlaşılır bir yapı tercih edin.
+   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
    */
   slug: string;
   /**
-   * Kartlarda, liste görünümünde veya üst açıklama alanlarında özet olarak kullanılır.
+   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu içerik için öne çıkan ana görseldir. Liste kartlarında ve detay sayfasında kullanılır.
+   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
+  /**
+   * Referansin hangi marka veya musteriye ait oldugunu yazin. Gorunmesini istemiyorsaniz bos birakabilirsiniz.
+   */
   musteri_adi?: string | null;
+  /**
+   * Detay sayfasinda kapak gorseline ek olarak gosterilecek ek proje gorselleri. Once kapak gorselini secin, sonra galeri ekleyin.
+   */
   galeri?: (number | Medyalar)[] | null;
+  /**
+   * Projenin hedefini, uygulama detaylarini ve ortaya cikan sonucu anlatan zengin icerik alanidir.
+   */
   icerik?: {
     root: {
       type: string;
@@ -415,6 +432,9 @@ export interface PortfoyProjeleri {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Kisa bir referans yorumu, ozet not veya proje sonucu metni yazabilirsiniz. Liste ve detay anlatimini destekler.
+   */
   referans_notu?: string | null;
   /**
    * İçerik sitede görünsün istiyorsanız "Yayında" seçin. Taslak içerikler yalnızca yönetimde görünür.
@@ -429,28 +449,31 @@ export interface PortfoyProjeleri {
    */
   sira_no?: number | null;
   /**
-   * Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
    */
   seo?: {
     /**
-     * Google sonuçlarında görünen başlık. 70 karakterin altında tutun.
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
      */
     seo_baslik?: string | null;
     /**
-     * Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
      */
     seo_aciklama?: string | null;
     /**
-     * Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
     indekslensin_mi?: boolean | null;
     /**
-     * İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
      */
     yapilandirilmis_veri?:
       | {
@@ -463,7 +486,7 @@ export interface PortfoyProjeleri {
       | null;
   };
   /**
-   * Bu alan editöre hızlı bir hatırlatma sağlar. İçerik doğrulaması için teknik alanların da dolu olması gerekir.
+   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
    */
   seo_kontrol_notu?: string | null;
   updatedAt: string;
@@ -476,21 +499,24 @@ export interface PortfoyProjeleri {
 export interface Kampanyalar {
   id: number;
   /**
-   * İçeriğin ana başlığıdır. Kartlarda ve detay sayfasında görünür.
+   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
    */
   baslik: string;
   /**
-   * URL içinde kullanılacak kısa isimdir. Türkçe karakter ve boşluk yerine kısa, anlaşılır bir yapı tercih edin.
+   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
    */
   slug: string;
   /**
-   * Kartlarda, liste görünümünde veya üst açıklama alanlarında özet olarak kullanılır.
+   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu içerik için öne çıkan ana görseldir. Liste kartlarında ve detay sayfasında kullanılır.
+   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
+  /**
+   * Kampanya detay sayfasinda gosterilecek zengin icerik alanidir. Kosullar, kapsam ve teslim detaylari burada anlatilabilir.
+   */
   icerik?: {
     root: {
       type: string;
@@ -506,9 +532,21 @@ export interface Kampanyalar {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Kampanyanin baslayacagi tarih. Sayaç veya listeleme mantigi bu tarihe gore yorumlanabilir.
+   */
   baslangic_tarihi: string;
+  /**
+   * Kampanyanin sona erecegi tarih. Search ve kullanici deneyimi icin gecmis kampanyalari zamaninda kapatmaniz onerilir.
+   */
   bitis_tarihi: string;
+  /**
+   * Acik oldugunda ana sayfa veya liste alanlarinda kampanya one cikarilabilir.
+   */
   one_cikart?: boolean | null;
+  /**
+   * Acik oldugunda kampanya sayfalarinda kalan sure sayaci gostermek icin kullanilir.
+   */
   sayac_goster?: boolean | null;
   /**
    * İçerik sitede görünsün istiyorsanız "Yayında" seçin. Taslak içerikler yalnızca yönetimde görünür.
@@ -523,28 +561,31 @@ export interface Kampanyalar {
    */
   sira_no?: number | null;
   /**
-   * Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
    */
   seo?: {
     /**
-     * Google sonuçlarında görünen başlık. 70 karakterin altında tutun.
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
      */
     seo_baslik?: string | null;
     /**
-     * Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
      */
     seo_aciklama?: string | null;
     /**
-     * Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
     indekslensin_mi?: boolean | null;
     /**
-     * İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
      */
     yapilandirilmis_veri?:
       | {
@@ -557,7 +598,7 @@ export interface Kampanyalar {
       | null;
   };
   /**
-   * Bu alan editöre hızlı bir hatırlatma sağlar. İçerik doğrulaması için teknik alanların da dolu olması gerekir.
+   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
    */
   seo_kontrol_notu?: string | null;
   updatedAt: string;
@@ -570,21 +611,24 @@ export interface Kampanyalar {
 export interface Sayfalar {
   id: number;
   /**
-   * İçeriğin ana başlığıdır. Kartlarda ve detay sayfasında görünür.
+   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
    */
   baslik: string;
   /**
-   * URL içinde kullanılacak kısa isimdir. Türkçe karakter ve boşluk yerine kısa, anlaşılır bir yapı tercih edin.
+   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
    */
   slug: string;
   /**
-   * Kartlarda, liste görünümünde veya üst açıklama alanlarında özet olarak kullanılır.
+   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu içerik için öne çıkan ana görseldir. Liste kartlarında ve detay sayfasında kullanılır.
+   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
+  /**
+   * Bu alan sayfanin govde icerigidir. Hakkimizda, KVKK, Cerez Politikasi, SSS veya kurumsal tanitim sayfalari burada olusturulur.
+   */
   icerik?: {
     root: {
       type: string;
@@ -613,28 +657,31 @@ export interface Sayfalar {
    */
   sira_no?: number | null;
   /**
-   * Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
    */
   seo?: {
     /**
-     * Google sonuçlarında görünen başlık. 70 karakterin altında tutun.
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
      */
     seo_baslik?: string | null;
     /**
-     * Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
      */
     seo_aciklama?: string | null;
     /**
-     * Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
     indekslensin_mi?: boolean | null;
     /**
-     * İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
      */
     yapilandirilmis_veri?:
       | {
@@ -647,7 +694,7 @@ export interface Sayfalar {
       | null;
   };
   /**
-   * Bu alan editöre hızlı bir hatırlatma sağlar. İçerik doğrulaması için teknik alanların da dolu olması gerekir.
+   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
    */
   seo_kontrol_notu?: string | null;
   updatedAt: string;
@@ -660,21 +707,24 @@ export interface Sayfalar {
 export interface BlogYazilari {
   id: number;
   /**
-   * İçeriğin ana başlığıdır. Kartlarda ve detay sayfasında görünür.
+   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
    */
   baslik: string;
   /**
-   * URL içinde kullanılacak kısa isimdir. Türkçe karakter ve boşluk yerine kısa, anlaşılır bir yapı tercih edin.
+   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
    */
   slug: string;
   /**
-   * Kartlarda, liste görünümünde veya üst açıklama alanlarında özet olarak kullanılır.
+   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu içerik için öne çıkan ana görseldir. Liste kartlarında ve detay sayfasında kullanılır.
+   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
+  /**
+   * Blog detay sayfasinda ve SEO tarafinda kullanilan ana icerik alanidir. Baslik hiyerarsisi, listeler ve gorsellerle zenginlestirebilirsiniz.
+   */
   icerik?: {
     root: {
       type: string;
@@ -690,6 +740,9 @@ export interface BlogYazilari {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Benzer konulari gruplamak icin etiket yazin. Arama niyetini destekleyen 2-5 kisa etiket yeterlidir.
+   */
   etiketler?: string[] | null;
   /**
    * İçerik sitede görünsün istiyorsanız "Yayında" seçin. Taslak içerikler yalnızca yönetimde görünür.
@@ -704,28 +757,31 @@ export interface BlogYazilari {
    */
   sira_no?: number | null;
   /**
-   * Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
    */
   seo?: {
     /**
-     * Google sonuçlarında görünen başlık. 70 karakterin altında tutun.
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
      */
     seo_baslik?: string | null;
     /**
-     * Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
      */
     seo_aciklama?: string | null;
     /**
-     * Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
     indekslensin_mi?: boolean | null;
     /**
-     * İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
      */
     yapilandirilmis_veri?:
       | {
@@ -738,7 +794,7 @@ export interface BlogYazilari {
       | null;
   };
   /**
-   * Bu alan editöre hızlı bir hatırlatma sağlar. İçerik doğrulaması için teknik alanların da dolu olması gerekir.
+   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
    */
   seo_kontrol_notu?: string | null;
   updatedAt: string;
@@ -1188,28 +1244,31 @@ export interface SiteAyarlari {
    */
   adres?: string | null;
   /**
-   * Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
    */
   seo?: {
     /**
-     * Google sonuçlarında görünen başlık. 70 karakterin altında tutun.
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
      */
     seo_baslik?: string | null;
     /**
-     * Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
      */
     seo_aciklama?: string | null;
     /**
-     * Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
     indekslensin_mi?: boolean | null;
     /**
-     * İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
      */
     yapilandirilmis_veri?:
       | {
@@ -1441,6 +1500,41 @@ export interface AnaSayfaIcerigi {
   createdAt?: string | null;
 }
 /**
+ * Google Analytics, Search Console ve arama motoru davranislarini bu ekrandan yonetin.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "entegrasyon_ayarlari".
+ */
+export interface EntegrasyonAyarlari {
+  id: number;
+  /**
+   * Kapaliysa tum sayfalar noindex olarak isaretlenir ve robots.txt tum taramayi kapatir. Bakim modu veya yayin oncesi icin kullanin.
+   */
+  site_indekslensin_mi?: boolean | null;
+  /**
+   * Google Search Console HTML dogrulama kodunu buraya yapistirin. Sadece meta etiketinin icerigindeki kodu yazin.
+   */
+  google_search_console_dogrulama?: string | null;
+  /**
+   * Robots.txt icinde varsayilan olarak kapatilacak ek yollar. Her satira bir yol yazin. Ornek: /odeme, /tesekkurler
+   */
+  robots_engellenen_yollar?: string | null;
+  /**
+   * Google Analytics 4 olcum kimligi. Ornek: G-XXXXXXXXXX. Girilirse tum on yuz sayfalarina izleme kodu eklenir.
+   */
+  google_analytics_olcum_kimligi?: string | null;
+  /**
+   * Google Tag Manager konteyner kimligi. Ornek: GTM-XXXXXXX. Girilirse siteye GTM betigi eklenir.
+   */
+  google_tag_manager_kimligi?: string | null;
+  /**
+   * Bu notlar panelde hatirlatma amaclidir. Search Console kurulumu, Analytics dogrulamasi ve sitemap kontrolu icin ekip ici checklist olarak kullanabilirsiniz.
+   */
+  yayin_kontrol_notu?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site_ayarlari_select".
  */
@@ -1554,6 +1648,21 @@ export interface AnaSayfaIcerigiSelect<T extends boolean = true> {
       };
   teklif_baslik?: T;
   teklif_aciklama?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "entegrasyon_ayarlari_select".
+ */
+export interface EntegrasyonAyarlariSelect<T extends boolean = true> {
+  site_indekslensin_mi?: T;
+  google_search_console_dogrulama?: T;
+  robots_engellenen_yollar?: T;
+  google_analytics_olcum_kimligi?: T;
+  google_tag_manager_kimligi?: T;
+  yayin_kontrol_notu?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

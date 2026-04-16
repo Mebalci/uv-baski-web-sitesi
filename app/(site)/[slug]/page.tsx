@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { ZenginIcerik } from '@/bilesenler/ZenginIcerik'
-import { metadataOlustur } from '@/kutuphane/seo'
+import { jsonLdBetigi, metadataOlustur, seoYapilandirilmisVeriAl } from '@/kutuphane/seo'
 import { sayfaGetir } from '@/kutuphane/icerikler'
 
 type Props = {
@@ -45,6 +45,14 @@ export default async function DinamikSayfa({ params }: Props) {
           <ZenginIcerik icerik={sayfa.icerik} />
         </div>
       ) : null}
+
+      {seoYapilandirilmisVeriAl(sayfa.seo).map((oge, index) => (
+        <script
+          dangerouslySetInnerHTML={jsonLdBetigi(oge)}
+          key={index}
+          type="application/ld+json"
+        />
+      ))}
     </section>
   )
 }

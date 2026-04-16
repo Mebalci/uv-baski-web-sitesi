@@ -4,14 +4,15 @@ export function seoAlanlari(): Field {
   return {
     admin: {
       description:
-        'Arama motorlarında görünecek başlık, açıklama ve paylaşım görselini bu bölümden yönetin.',
+        'Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.',
     },
     fields: [
       {
         admin: {
-          description: 'Google sonuçlarında görünen başlık. 70 karakterin altında tutun.',
+          description:
+            'Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.',
         },
-        label: 'SEO Başlık',
+        label: 'SEO Baslik',
         maxLength: 70,
         name: 'seo_baslik',
         type: 'text',
@@ -19,9 +20,9 @@ export function seoAlanlari(): Field {
       {
         admin: {
           description:
-            'Google sonuçlarında başlığın altında görünen kısa açıklama. 160 karakteri geçmeyin.',
+            'Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.',
         },
-        label: 'SEO Açıklama',
+        label: 'SEO Aciklama',
         maxLength: 160,
         name: 'seo_aciklama',
         type: 'textarea',
@@ -29,7 +30,7 @@ export function seoAlanlari(): Field {
       {
         admin: {
           description:
-            'Aynı içeriğin birden fazla URL’si varsa arama motorlarına tercih edilen adresi belirtir.',
+            'Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.',
         },
         label: 'Kanonik URL',
         name: 'kanonik_url',
@@ -37,25 +38,30 @@ export function seoAlanlari(): Field {
       },
       {
         admin: {
-          description: 'Sayfa sosyal medyada paylaşıldığında görünecek kapak görseli.',
+          description:
+            'Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.',
         },
-        label: 'Open Graph Görseli',
+        label: 'Open Graph Gorseli',
         name: 'open_graph_gorseli',
         relationTo: 'medyalar',
         type: 'upload',
       },
       {
+        admin: {
+          description:
+            'Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.',
+        },
         defaultValue: true,
-        label: 'İndekslensin mi?',
+        label: 'Indekslensin mi?',
         name: 'indekslensin_mi',
         type: 'checkbox',
       },
       {
         admin: {
           description:
-            'İleri seviye yapılandırılmış veri alanı. Genellikle geliştirici desteğiyle kullanılır.',
+            'Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.',
         },
-        label: 'Yapılandırılmış Veri',
+        label: 'Yapilandirilmis Veri',
         name: 'yapilandirilmis_veri',
         type: 'json',
       },
@@ -70,9 +76,10 @@ export function ortakMetinAlanlari(): Field[] {
   return [
     {
       admin: {
-        description: 'İçeriğin ana başlığıdır. Kartlarda ve detay sayfasında görünür.',
+        description:
+          'Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.',
       },
-      label: 'Başlık',
+      label: 'Baslik',
       name: 'baslik',
       required: true,
       type: 'text',
@@ -80,7 +87,7 @@ export function ortakMetinAlanlari(): Field[] {
     {
       admin: {
         description:
-          'URL içinde kullanılacak kısa isimdir. Türkçe karakter ve boşluk yerine kısa, anlaşılır bir yapı tercih edin.',
+          'URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.',
       },
       index: true,
       label: 'Slug',
@@ -91,18 +98,19 @@ export function ortakMetinAlanlari(): Field[] {
     },
     {
       admin: {
-        description: 'Kartlarda, liste görünümünde veya üst açıklama alanlarında özet olarak kullanılır.',
+        description:
+          'Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.',
       },
-      label: 'Kısa Açıklama',
+      label: 'Kisa Aciklama',
       name: 'kisa_aciklama',
       type: 'textarea',
     },
     {
       admin: {
         description:
-          'Bu içerik için öne çıkan ana görseldir. Liste kartlarında ve detay sayfasında kullanılır.',
+          'Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.',
       },
-      label: 'Kapak Görseli',
+      label: 'Kapak Gorseli',
       name: 'kapak_gorseli',
       relationTo: 'medyalar',
       type: 'upload',
@@ -114,11 +122,11 @@ export function seoKontrolPaneli(): Field {
   return {
     admin: {
       description:
-        'Bu alan editöre hızlı bir hatırlatma sağlar. İçerik doğrulaması için teknik alanların da dolu olması gerekir.',
+        'Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.',
       position: 'sidebar',
     },
     defaultValue:
-      'Kontrol et: slug dolu mu, SEO başlığı 70 karakter altında mı, açıklama 160 karakteri geçmiyor mu?',
+      'Kontrol et: slug sabit mi, SEO basligi ozgun mu, aciklama 160 karakter altinda mi, indeksleme tercihi dogru mu?',
     label: 'SEO Kontrol Notu',
     name: 'seo_kontrol_notu',
     type: 'textarea',

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
+import { ZenginIcerik } from '@/bilesenler/ZenginIcerik'
 import { blogYazisiGetir } from '@/kutuphane/icerikler'
-import { metadataOlustur } from '@/kutuphane/seo'
+import { jsonLdBetigi, metadataOlustur, seoYapilandirilmisVeriAl } from '@/kutuphane/seo'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -39,6 +40,20 @@ export default async function BlogDetaySayfasi({ params }: Props) {
         <h1 className="mt-5 text-5xl font-semibold tracking-[-0.06em] text-slate-950">{yazi.baslik}</h1>
         <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">{yazi.kisa_aciklama}</p>
       </div>
+
+      {yazi.icerik ? (
+        <div className="icerik-paneli mt-8">
+          <ZenginIcerik icerik={yazi.icerik} />
+        </div>
+      ) : null}
+
+      {seoYapilandirilmisVeriAl(yazi.seo).map((oge, index) => (
+        <script
+          dangerouslySetInnerHTML={jsonLdBetigi(oge)}
+          key={index}
+          type="application/ld+json"
+        />
+      ))}
     </section>
   )
 }

@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import { TeklifFormu } from '@/bilesenler/TeklifFormu'
 import { urunGetir } from '@/kutuphane/icerikler'
 import { medyaUrlAl } from '@/kutuphane/medya'
-import { jsonLdBetigi, metadataOlustur } from '@/kutuphane/seo'
+import { jsonLdBetigi, metadataOlustur, seoYapilandirilmisVeriAl } from '@/kutuphane/seo'
 import { paraBirimi, whatsappBaglantisi } from '@/kutuphane/yardimcilar'
 
 type Props = {
@@ -115,6 +115,13 @@ export default async function UrunDetaySayfasi({ params }: Props) {
         })}
         type="application/ld+json"
       />
+      {seoYapilandirilmisVeriAl(urun.seo).map((oge, index) => (
+        <script
+          dangerouslySetInnerHTML={jsonLdBetigi(oge)}
+          key={index}
+          type="application/ld+json"
+        />
+      ))}
     </section>
   )
 }

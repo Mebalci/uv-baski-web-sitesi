@@ -12,22 +12,30 @@ export const BlogYazilari: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['baslik', 'slug', 'durum', 'yayin_tarihi'],
-    group: 'İçerik Pazarlaması',
+    group: 'Icerik Pazarlamasi',
     useAsTitle: 'baslik',
   },
   labels: {
-    plural: 'Blog Yazıları',
-    singular: 'Blog Yazısı',
+    plural: 'Blog Yazilari',
+    singular: 'Blog Yazisi',
   },
   fields: [
     ...ortakMetinAlanlari(),
     {
+      admin: {
+        description:
+          'Blog detay sayfasinda ve SEO tarafinda kullanilan ana icerik alanidir. Baslik hiyerarsisi, listeler ve gorsellerle zenginlestirebilirsiniz.',
+      },
       editor: lexicalEditor(),
-      label: 'Yazı İçeriği',
+      label: 'Yazi Icerigi',
       name: 'icerik',
       type: 'richText',
     },
     {
+      admin: {
+        description:
+          'Benzer konulari gruplamak icin etiket yazin. Arama niyetini destekleyen 2-5 kisa etiket yeterlidir.',
+      },
       label: 'Etiketler',
       name: 'etiketler',
       type: 'text',

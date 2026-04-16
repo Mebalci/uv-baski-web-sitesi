@@ -23,6 +23,7 @@ import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { MebalciIcon as MebalciIcon_035385f86c19d44b2ff9e2a43796aada } from '../../../app/(yonetim)/admin/bilesenler/MebalciIcon'
 import { MebalciLogo as MebalciLogo_e2a261745e3fae58597b03b01cb736dc } from '../../../app/(yonetim)/admin/bilesenler/MebalciLogo'
+import { PanelRehberi as PanelRehberi_e22f693b26cf485dda243f82bc7e3aa3 } from '../../../app/(yonetim)/admin/bilesenler/PanelRehberi'
 import { GirisYardimi as GirisYardimi_48da3b7d588c3eda2a1809d72c497b08 } from '../../../app/(yonetim)/admin/bilesenler/GirisYardimi'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
@@ -53,6 +54,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "./app/(yonetim)/admin/bilesenler/MebalciIcon#MebalciIcon": MebalciIcon_035385f86c19d44b2ff9e2a43796aada,
   "./app/(yonetim)/admin/bilesenler/MebalciLogo#MebalciLogo": MebalciLogo_e2a261745e3fae58597b03b01cb736dc,
+  "./app/(yonetim)/admin/bilesenler/PanelRehberi#PanelRehberi": PanelRehberi_e22f693b26cf485dda243f82bc7e3aa3,
   "./app/(yonetim)/admin/bilesenler/GirisYardimi#GirisYardimi": GirisYardimi_48da3b7d588c3eda2a1809d72c497b08,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1

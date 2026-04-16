@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { ZenginIcerik } from '@/bilesenler/ZenginIcerik'
 import { portfoyGetir } from '@/kutuphane/icerikler'
 import { medyaUrlAl } from '@/kutuphane/medya'
-import { metadataOlustur } from '@/kutuphane/seo'
+import { jsonLdBetigi, metadataOlustur, seoYapilandirilmisVeriAl } from '@/kutuphane/seo'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -89,6 +89,14 @@ export default async function PortfoyDetaySayfasi({ params }: Props) {
             <ZenginIcerik icerik={kayit.icerik} />
           </div>
         ) : null}
+
+        {seoYapilandirilmisVeriAl(kayit.seo).map((oge, index) => (
+          <script
+            dangerouslySetInnerHTML={jsonLdBetigi(oge)}
+            key={index}
+            type="application/ld+json"
+          />
+        ))}
       </div>
     </section>
   )
