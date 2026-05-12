@@ -1,13 +1,17 @@
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { TeklifFormu } from '@/bilesenler/TeklifFormu'
 
+import { TeklifFormu } from '@/bilesenler/TeklifFormu'
 import { PortfoySepetButonu } from '@/bilesenler/PortfoySepetButonu'
 import { ZenginIcerik } from '@/bilesenler/ZenginIcerik'
 import { portfoyGetir } from '@/kutuphane/icerikler'
 import { medyaUrlAl } from '@/kutuphane/medya'
-import { jsonLdBetigi, metadataOlustur, seoYapilandirilmisVeriAl } from '@/kutuphane/seo'
+import {
+  jsonLdBetigi,
+  metadataOlustur,
+  seoYapilandirilmisVeriAl,
+} from '@/kutuphane/seo'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -57,11 +61,16 @@ export default async function PortfoyDetaySayfasi({ params }: Props) {
 
   const detayKaydi = kayit as PortfoyDetayKaydi
   const gorselUrl = medyaUrlAl(detayKaydi.kapak_gorseli as never, 'buyuk')
+
   const galeri = Array.isArray(detayKaydi.galeri)
     ? (detayKaydi.galeri as GaleriGorseli[])
     : []
+
   const fiyatMetni =
-    typeof detayKaydi.fiyat_metni === 'string' ? detayKaydi.fiyat_metni : null
+    typeof detayKaydi.fiyat_metni === 'string' &&
+    detayKaydi.fiyat_metni.trim()
+      ? detayKaydi.fiyat_metni.trim()
+      : null
 
   return (
     <>
@@ -95,22 +104,20 @@ export default async function PortfoyDetaySayfasi({ params }: Props) {
               </p>
             ) : null}
 
-            {fiyatMetni || detayKaydi.baslik ? (
+            {fiyatMetni ? (
               <div className="mt-8 flex flex-wrap items-center gap-5">
-                {fiyatMetni ? (
-                  <p className="inline-block border-b border-[var(--atolyen-blue)] pb-2 text-xl font-extrabold text-slate-950">
-                    {fiyatMetni}
-                  </p>
-                ) : null}
+                <p className="inline-block border-b border-[var(--atolyen-blue)] pb-2 text-xl font-extrabold text-slate-950">
+                  {fiyatMetni}
+                </p>
 
                 {detayKaydi.baslik ? (
-                <PortfoySepetButonu
-                  oge={{
-                    baslik: detayKaydi.baslik,
-                    fiyat: fiyatMetni,
-                    slug: detayKaydi.slug,
-                  }}
-                />
+                  <PortfoySepetButonu
+                    oge={{
+                      baslik: detayKaydi.baslik,
+                      fiyat: fiyatMetni,
+                      slug: detayKaydi.slug,
+                    }}
+                  />
                 ) : null}
               </div>
             ) : null}
@@ -139,7 +146,10 @@ export default async function PortfoyDetaySayfasi({ params }: Props) {
 
             <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
               {galeri.map((gorsel, index) => {
-                const galeriUrl = medyaUrlAl((gorsel.gorsel || gorsel) as never, 'buyuk')
+                const galeriUrl = medyaUrlAl(
+                  (gorsel.gorsel || gorsel) as never,
+                  'buyuk',
+                )
 
                 return (
                   <div
@@ -164,15 +174,15 @@ export default async function PortfoyDetaySayfasi({ params }: Props) {
       </section>
 
       <section className="w-full px-5 py-14 md:px-8 lg:px-[64px]">
-              <div className="mx-auto flex max-w-[920px] flex-col items-center">
-                <div className="mb-10 inline-flex px-3 py-3 text-xl font-bold uppercase tracking-wide text-slate-900 md:text-2xl">
-                  TEKLIF AL
-                </div>
-      
-                <div className="w-full">
-                  <TeklifFormu konu="Ana sayfa teklif talebi" />
-                </div>
-              </div>
+        <div className="mx-auto flex max-w-[920px] flex-col items-center">
+          <div className="mb-10 inline-flex px-3 py-3 text-xl font-bold uppercase tracking-wide text-slate-900 md:text-2xl">
+            TEKLIF AL
+          </div>
+
+          <div className="w-full">
+            <TeklifFormu konu="Portfoy detay teklif talebi" />
+          </div>
+        </div>
       </section>
 
       {seoYapilandirilmisVeriAl(detayKaydi.seo).map((oge, index) => (
