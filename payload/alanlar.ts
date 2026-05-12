@@ -38,9 +38,11 @@ export function seoAlanlari(): Field {
       },
       {
         admin: {
+          allowCreate: true,
           description:
-            'Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.',
+            'Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.',
         },
+        displayPreview: true,
         label: 'Open Graph Gorseli',
         name: 'open_graph_gorseli',
         relationTo: 'medyalar',
@@ -107,9 +109,11 @@ export function ortakMetinAlanlari(): Field[] {
     },
     {
       admin: {
+        allowCreate: true,
         description:
-          'Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.',
+          'Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.',
       },
+      displayPreview: true,
       label: 'Kapak Gorseli',
       name: 'kapak_gorseli',
       relationTo: 'medyalar',

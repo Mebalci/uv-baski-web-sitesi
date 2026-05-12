@@ -33,9 +33,11 @@ export const Sayfalar: CollectionConfig = {
     },
     {
       admin: {
+        allowCreate: true,
         description:
-          'Bu sayfanin sag reklam alaninda gosterilecek gorsel. Bos birakilirsa genel detay sag reklam alani kullanilir.',
+          'Bu sayfanin sag reklam alaninda gosterilecek gorsel. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Bos birakilirsa genel detay sag reklam alani kullanilir.',
       },
+      displayPreview: true,
       label: 'Sag Reklam Gorseli',
       name: 'sag_reklam_gorseli',
       relationTo: 'medyalar',

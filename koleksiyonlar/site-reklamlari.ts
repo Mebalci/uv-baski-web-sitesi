@@ -44,9 +44,11 @@ export const SiteReklamlari: CollectionConfig = {
     },
     {
       admin: {
+        allowCreate: true,
         description:
-          'Reklam gorseli bulundugu alana gore responsive olarak genisler, uzar veya kisalir. Kenar kaybi olmaz; gorsel alanin seklini alir. Tasarimi yuklerken yazilari ve onemli ogeleri guvenli bosluk icinde tutun.',
+          'Medyalar icinden mevcut reklam gorseli secilebilir veya yeni gorsel yuklenebilir. Reklam gorseli bulundugu alana gore responsive olarak genisler, uzar veya kisalir. Kenar kaybi olmaz; gorsel alanin seklini alir. Tasarimi yuklerken yazilari ve onemli ogeleri guvenli bosluk icinde tutun.',
       },
+      displayPreview: true,
       label: 'Gorsel',
       name: 'gorsel',
       relationTo: 'medyalar',

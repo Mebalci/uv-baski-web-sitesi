@@ -61,9 +61,11 @@ export const PortfoyProjeleri: CollectionConfig = {
     },
     {
       admin: {
+        allowCreate: true,
         description:
-          'Detay sayfasinda kapak gorseline ek olarak gosterilecek ek proje gorselleri. Once kapak gorselini secin, sonra galeri ekleyin.',
+          'Detay sayfasinda kapak gorseline ek olarak gosterilecek ek proje gorselleri. Medyalar icinden mevcut gorseller secilebilir veya yeni gorsel yuklenebilir.',
       },
+      displayPreview: true,
       label: 'Galeri',
       name: 'galeri',
       relationTo: 'medyalar',

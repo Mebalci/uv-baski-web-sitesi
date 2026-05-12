@@ -9,9 +9,11 @@ export const IletisimBilgileri: GlobalConfig = {
   fields: [
     {
       admin: {
+        allowCreate: true,
         description:
-          'Iletisim sayfasinin sol tarafinda gosterilecek gorsel. Gorsel bulundugu alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.',
+          'Iletisim sayfasinin sol tarafinda gosterilecek gorsel. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel bulundugu alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.',
       },
+      displayPreview: true,
       label: 'Sayfa Sol Gorseli',
       name: 'sol_gorsel',
       relationTo: 'medyalar',

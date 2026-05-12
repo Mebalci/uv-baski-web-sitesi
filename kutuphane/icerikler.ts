@@ -18,6 +18,11 @@ const iletisimOrnek = {
   telefon: '+90 212 555 11 22',
 }
 
+const hakkimizdaIcerigiOrnek = {
+  aciklama_metni: '',
+  sol_gorsel: null,
+}
+
 const ustBilgiOrnek = {
   menu_ogeleri: [
     { baglanti: '/urunler', etiket: 'Urunler' },
@@ -109,6 +114,14 @@ export async function iletisimBilgileriGetir() {
     return (await globalBul('iletisim_bilgileri')) || iletisimOrnek
   } catch {
     return iletisimOrnek
+  }
+}
+
+export async function hakkimizdaIcerigiGetir() {
+  try {
+    return (await globalBul('hakkimizda_icerigi')) || hakkimizdaIcerigiOrnek
+  } catch {
+    return hakkimizdaIcerigiOrnek
   }
 }
 

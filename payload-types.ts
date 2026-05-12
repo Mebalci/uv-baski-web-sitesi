@@ -106,6 +106,7 @@ export interface Config {
     ust_bilgi: UstBilgi;
     alt_bilgi: AltBilgi;
     iletisim_bilgileri: IletisimBilgileri;
+    hakkimizda_icerigi: HakkimizdaIcerigi;
     ana_sayfa_icerigi: AnaSayfaIcerigi;
     entegrasyon_ayarlari: EntegrasyonAyarlari;
   };
@@ -114,6 +115,7 @@ export interface Config {
     ust_bilgi: UstBilgiSelect<false> | UstBilgiSelect<true>;
     alt_bilgi: AltBilgiSelect<false> | AltBilgiSelect<true>;
     iletisim_bilgileri: IletisimBilgileriSelect<false> | IletisimBilgileriSelect<true>;
+    hakkimizda_icerigi: HakkimizdaIcerigiSelect<false> | HakkimizdaIcerigiSelect<true>;
     ana_sayfa_icerigi: AnaSayfaIcerigiSelect<false> | AnaSayfaIcerigiSelect<true>;
     entegrasyon_ayarlari: EntegrasyonAyarlariSelect<false> | EntegrasyonAyarlariSelect<true>;
   };
@@ -202,7 +204,7 @@ export interface Urunler {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -280,7 +282,7 @@ export interface Urunler {
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
     /**
@@ -326,7 +328,7 @@ export interface UrunKategorileri {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   one_cikan?: boolean | null;
@@ -363,7 +365,7 @@ export interface UrunKategorileri {
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
     /**
@@ -409,7 +411,7 @@ export interface PortfoyProjeleri {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -429,7 +431,7 @@ export interface PortfoyProjeleri {
    */
   fiyat_metni?: string | null;
   /**
-   * Detay sayfasinda kapak gorseline ek olarak gosterilecek ek proje gorselleri. Once kapak gorselini secin, sonra galeri ekleyin.
+   * Detay sayfasinda kapak gorseline ek olarak gosterilecek ek proje gorselleri. Medyalar icinden mevcut gorseller secilebilir veya yeni gorsel yuklenebilir.
    */
   galeri?: (number | Medyalar)[] | null;
   /**
@@ -483,7 +485,7 @@ export interface PortfoyProjeleri {
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
     /**
@@ -529,7 +531,7 @@ export interface Sayfalar {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -551,7 +553,7 @@ export interface Sayfalar {
     [k: string]: unknown;
   } | null;
   /**
-   * Bu sayfanin sag reklam alaninda gosterilecek gorsel. Bos birakilirsa genel detay sag reklam alani kullanilir.
+   * Bu sayfanin sag reklam alaninda gosterilecek gorsel. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Bos birakilirsa genel detay sag reklam alani kullanilir.
    */
   sag_reklam_gorseli?: (number | null) | Medyalar;
   /**
@@ -595,7 +597,7 @@ export interface Sayfalar {
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
     /**
@@ -641,7 +643,7 @@ export interface Kampanyalar {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -707,7 +709,7 @@ export interface Kampanyalar {
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
     /**
@@ -753,7 +755,7 @@ export interface SiteReklamlari {
     | 'hakkimizda_sag'
     | 'iletisim_sag';
   /**
-   * Reklam gorseli bulundugu alana gore responsive olarak genisler, uzar veya kisalir. Kenar kaybi olmaz; gorsel alanin seklini alir. Tasarimi yuklerken yazilari ve onemli ogeleri guvenli bosluk icinde tutun.
+   * Medyalar icinden mevcut reklam gorseli secilebilir veya yeni gorsel yuklenebilir. Reklam gorseli bulundugu alana gore responsive olarak genisler, uzar veya kisalir. Kenar kaybi olmaz; gorsel alanin seklini alir. Tasarimi yuklerken yazilari ve onemli ogeleri guvenli bosluk icinde tutun.
    */
   gorsel: number | Medyalar;
   /**
@@ -799,7 +801,7 @@ export interface BlogYazilari {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -853,7 +855,7 @@ export interface BlogYazilari {
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
     /**
@@ -1337,7 +1339,7 @@ export interface SiteAyarlari {
    */
   firma_adi: string;
   /**
-   * Sitede header ve footer alanlarinda gosterilecek logo gorseli.
+   * Sitede header, footer ve tarayici sekmesinde gosterilecek logo gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
    */
   logo?: (number | null) | Medyalar;
   /**
@@ -1377,7 +1379,7 @@ export interface SiteAyarlari {
      */
     kanonik_url?: string | null;
     /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
      */
     open_graph_gorseli?: (number | null) | Medyalar;
     /**
@@ -1467,7 +1469,7 @@ export interface AltBilgi {
 export interface IletisimBilgileri {
   id: number;
   /**
-   * Iletisim sayfasinin sol tarafinda gosterilecek gorsel. Gorsel bulundugu alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Iletisim sayfasinin sol tarafinda gosterilecek gorsel. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel bulundugu alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   sol_gorsel?: (number | null) | Medyalar;
   /**
@@ -1486,6 +1488,25 @@ export interface IletisimBilgileri {
    * Örnek: Hafta içi 09:00 - 18:00
    */
   calisma_saatleri?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Hakkimizda sayfasindaki sol gorsel ve orta aciklama metni bu ekrandan yonetilir.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hakkimizda_icerigi".
+ */
+export interface HakkimizdaIcerigi {
+  id: number;
+  /**
+   * Hakkimizda sayfasinin sol tarafinda gorunecek gorsel. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Tasarimdaki mevcut alana gore gosterilir.
+   */
+  sol_gorsel?: (number | null) | Medyalar;
+  /**
+   * Hakkimizda sayfasinin orta alaninda gorunecek metin. Paragraflari bos satirla ayirabilirsiniz.
+   */
+  aciklama_metni?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1608,6 +1629,17 @@ export interface IletisimBilgileriSelect<T extends boolean = true> {
   eposta?: T;
   adres?: T;
   calisma_saatleri?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hakkimizda_icerigi_select".
+ */
+export interface HakkimizdaIcerigiSelect<T extends boolean = true> {
+  sol_gorsel?: T;
+  aciklama_metni?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

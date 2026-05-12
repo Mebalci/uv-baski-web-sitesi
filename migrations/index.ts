@@ -8,6 +8,7 @@ import * as migration_20260512_022000_portfoy_sayfa_baglantilari from './2026051
 import * as migration_20260512_023000_sayfa_sag_reklam_alani from './20260512_023000_sayfa_sag_reklam_alani';
 import * as migration_20260512_024000_site_baslik_font_linki from './20260512_024000_site_baslik_font_linki';
 import * as migration_20260512_030000_urun_kategori_yonlendirme_linki from './20260512_030000_urun_kategori_yonlendirme_linki';
+import * as migration_20260512_031500_hakkimizda_icerigi from './20260512_031500_hakkimizda_icerigi';
 
 export const migrations = [
   {
@@ -59,5 +60,10 @@ export const migrations = [
     up: migration_20260512_030000_urun_kategori_yonlendirme_linki.up,
     down: migration_20260512_030000_urun_kategori_yonlendirme_linki.down,
     name: '20260512_030000_urun_kategori_yonlendirme_linki'
+  },
+  {
+    up: migration_20260512_031500_hakkimizda_icerigi.up,
+    down: migration_20260512_031500_hakkimizda_icerigi.down,
+    name: '20260512_031500_hakkimizda_icerigi'
   },
 ];

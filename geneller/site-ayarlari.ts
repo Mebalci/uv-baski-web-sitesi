@@ -19,8 +19,11 @@ export const SiteAyarlari: GlobalConfig = {
     },
     {
       admin: {
-        description: 'Sitede header ve footer alanlarinda gosterilecek logo gorseli.',
+        allowCreate: true,
+        description:
+          'Sitede header, footer ve tarayici sekmesinde gosterilecek logo gorseli. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.',
       },
+      displayPreview: true,
       label: 'Site Logosu',
       name: 'logo',
       relationTo: 'medyalar',

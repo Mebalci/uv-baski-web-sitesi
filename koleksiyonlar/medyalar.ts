@@ -9,6 +9,7 @@ export const Medyalar: CollectionConfig = {
     update: girisYapmis,
   },
   admin: {
+    defaultColumns: ['thumbnail', 'alt', 'filename', 'createdAt'],
     group: 'Sistem',
     useAsTitle: 'alt',
   },

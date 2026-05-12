@@ -46,7 +46,7 @@ export default async function IletisimSayfasi() {
 
   return (
     <section className="mx-auto grid max-w-[1760px] items-center gap-8 px-5 pb-10 pt-12 md:px-8 lg:grid-cols-[3fr_4fr_2fr] lg:gap-12 lg:px-[64px]">
-      <div className="relative aspect-square w-full overflow-hidden">
+      <div className="relative z-0 aspect-square w-full overflow-hidden">
         {solGorselUrl ? (
           <Image
             alt={`${baslik} sol gorseli`}
@@ -58,7 +58,7 @@ export default async function IletisimSayfasi() {
         ) : null}
       </div>
 
-      <div className="text-left lg:-ml-8 xl:-ml-14">
+      <div className="relative z-10 text-left">
         <h1 className="font-parisienne relative -top-3 rotate-[-3deg] text-[clamp(3.6rem,7vw,7.5rem)] leading-[0.78] tracking-[0.01em] text-[var(--atolyen-blue)] lg:-top-5">
           {baslik}
         </h1>
@@ -88,7 +88,11 @@ export default async function IletisimSayfasi() {
         ) : null}
       </div>
 
-      <ReklamAlani boskenGizle className="min-h-[24rem] lg:min-h-[34rem]" kayitlar={sagReklamlar} />
+      <ReklamAlani
+        boskenGizle
+        className="h-[38rem] w-full xl:h-[44rem]"
+        kayitlar={sagReklamlar}
+      />
     </section>
   )
 }

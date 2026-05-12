@@ -44,6 +44,7 @@ export const Urunler: CollectionConfig = {
       admin: {
         description: 'Ürün detay sayfasında kapak görselinin altında gösterilecek ek görseller.',
       },
+      displayPreview: true,
       label: 'Galeri',
       name: 'galeri',
       relationTo: 'medyalar',

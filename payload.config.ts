@@ -13,6 +13,7 @@ import { Yoneticiler } from '@/koleksiyonlar/yoneticiler'
 import { AltBilgi } from '@/geneller/alt-bilgi'
 import { AnaSayfaIcerigi } from '@/geneller/ana-sayfa-icerigi'
 import { EntegrasyonAyarlari } from '@/geneller/entegrasyon-ayarlari'
+import { HakkimizdaIcerigi } from '@/geneller/hakkimizda-icerigi'
 import { IletisimBilgileri } from '@/geneller/iletisim-bilgileri'
 import { SiteAyarlari } from '@/geneller/site-ayarlari'
 import { UstBilgi } from '@/geneller/ust-bilgi'
@@ -110,7 +111,15 @@ export default buildConfig({
   }),
   editor: lexicalEditor(),
   email: epostaAdapterunuOlustur,
-  globals: [SiteAyarlari, UstBilgi, AltBilgi, IletisimBilgileri, AnaSayfaIcerigi, EntegrasyonAyarlari],
+  globals: [
+    SiteAyarlari,
+    UstBilgi,
+    AltBilgi,
+    IletisimBilgileri,
+    HakkimizdaIcerigi,
+    AnaSayfaIcerigi,
+    EntegrasyonAyarlari,
+  ],
   plugins: [
     s3Storage({
       acl: 'public-read',
