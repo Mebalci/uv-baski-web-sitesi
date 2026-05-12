@@ -6,16 +6,18 @@ import { medyaUrlAl } from '@/kutuphane/medya'
 type HizmetKartProps = {
   baslik: string
   gorsel?: unknown
+  href?: string | null
   slug: string
 }
 
-export function HizmetKart({ baslik, gorsel, slug }: HizmetKartProps) {
+export function HizmetKart({ baslik, gorsel, href, slug }: HizmetKartProps) {
   const gorselUrl = medyaUrlAl(gorsel as never, 'buyuk')
+  const hedef = href?.trim() || `/kategoriler/${slug}`
 
   return (
     <Link
       className="group relative block aspect-[740/2400] min-w-0 overflow-hidden bg-[#231f20] lg:aspect-auto lg:h-full lg:min-h-0"
-      href={`/kategoriler/${slug}`}
+      href={hedef}
     >
       {gorselUrl ? (
         <Image

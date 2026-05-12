@@ -26,6 +26,15 @@ export const UrunKategorileri: CollectionConfig = {
       name: 'one_cikan',
       type: 'checkbox',
     },
+    {
+      admin: {
+        description:
+          'Kategori kartina tiklaninca gidilecek ozel adres. Bos birakilirsa kategori detay sayfasina gider. Ornek: /baski veya https://ornek.com',
+      },
+      label: 'Yonlendirme Linki',
+      name: 'yonlendirme_linki',
+      type: 'text',
+    },
     ...yayinTarihiAlanlari(),
     seoAlanlari(),
     seoKontrolPaneli(),

@@ -9,6 +9,7 @@ import {
   iletisimBilgileriGetir,
   siteAyarlariGetir,
 } from '@/kutuphane/icerikler'
+import { medyaUrlAl } from '@/kutuphane/medya'
 import { jsonLdBetigi, metadataOlustur } from '@/kutuphane/seo'
 import { siteUrlAl } from '@/kutuphane/yardimcilar'
 import '../globals.css'
@@ -71,6 +72,12 @@ function googleFontBilgisiAl(fontLinki?: string | null) {
   }
 }
 
+function siteLogoUrlAl(ayarlar: unknown) {
+  const logo = (ayarlar as { logo?: unknown })?.logo
+
+  return medyaUrlAl(logo as never, 'kucuk') || medyaUrlAl(logo as never) || '/favicon.png'
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const [ayarlar, entegrasyonAyarlari] = await Promise.all([
     siteAyarlariGetir(),
@@ -82,9 +89,19 @@ export async function generateMetadata(): Promise<Metadata> {
     baslik: ayarlar.firma_adi,
     seo: ayarlar.seo,
   })
+  const siteLogoUrl = siteLogoUrlAl(ayarlar)
 
   return {
     ...temelMetadata,
+    icons: {
+      apple: siteLogoUrl,
+      icon: [
+        {
+          url: siteLogoUrl,
+        },
+      ],
+      shortcut: siteLogoUrl,
+    },
     robots: {
       follow: entegrasyonAyarlari.site_indekslensin_mi !== false,
       index: entegrasyonAyarlari.site_indekslensin_mi !== false,
@@ -110,12 +127,15 @@ export default async function RootLayout({
   const tagManagerId = entegrasyonAyarlari.google_tag_manager_kimligi?.trim()
   const baslikFontAyarlari = ayarlar as { baslik_font_linki?: string | null }
   const baslikFontu = googleFontBilgisiAl(baslikFontAyarlari.baslik_font_linki)
+  const siteLogoUrl = siteLogoUrlAl(ayarlar)
 
   return (
     <html lang="tr" data-scroll-behavior="smooth">
       <head>
         <link href="https://fonts.googleapis.com" rel="preconnect" />
         <link crossOrigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href={siteLogoUrl} rel="icon" />
+        <link href={siteLogoUrl} rel="apple-touch-icon" />
         <link href={baslikFontu.cssUrl} rel="stylesheet" />
       </head>
       <body style={{ '--atolyen-heading-font': baslikFontu.fontFamily } as React.CSSProperties}>

@@ -62,6 +62,14 @@ export default async function AnaSayfa() {
     ? girisMetinleri
     : eskiMetinler || []
 
+  const kategoriLinkiAl = (kategori: unknown) =>
+    typeof kategori === 'object' &&
+    kategori !== null &&
+    'yonlendirme_linki' in kategori &&
+    typeof kategori.yonlendirme_linki === 'string'
+      ? kategori.yonlendirme_linki
+      : null
+
   return (
     <>
       <section className="w-full px-5 py-5 md:px-8 md:py-6 lg:px-[64px]">
@@ -108,6 +116,7 @@ export default async function AnaSayfa() {
                   <HizmetKart
                     baslik={kategori.baslik}
                     gorsel={kategori.kapak_gorseli}
+                    href={kategoriLinkiAl(kategori)}
                     key={kategori.slug}
                     slug={kategori.slug}
                   />
@@ -163,6 +172,7 @@ export default async function AnaSayfa() {
                 <HizmetKart
                   baslik={kategori.baslik}
                   gorsel={kategori.kapak_gorseli}
+                  href={kategoriLinkiAl(kategori)}
                   key={kategori.slug}
                   slug={kategori.slug}
                 />

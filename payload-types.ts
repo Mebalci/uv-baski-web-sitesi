@@ -331,6 +331,10 @@ export interface UrunKategorileri {
   kapak_gorseli?: (number | null) | Medyalar;
   one_cikan?: boolean | null;
   /**
+   * Kategori kartina tiklaninca gidilecek ozel adres. Bos birakilirsa kategori detay sayfasina gider. Ornek: /baski veya https://ornek.com
+   */
+  yonlendirme_linki?: string | null;
+  /**
    * İçerik sitede görünsün istiyorsanız "Yayında" seçin. Taslak içerikler yalnızca yönetimde görünür.
    */
   durum: 'taslak' | 'yayinda';
@@ -1098,6 +1102,7 @@ export interface UrunKategorileriSelect<T extends boolean = true> {
   kisa_aciklama?: T;
   kapak_gorseli?: T;
   one_cikan?: T;
+  yonlendirme_linki?: T;
   durum?: T;
   yayin_tarihi?: T;
   sira_no?: T;

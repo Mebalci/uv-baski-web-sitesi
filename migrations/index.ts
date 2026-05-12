@@ -7,6 +7,7 @@ import * as migration_20260512_005500_site_baslik_fontu_serbest from './20260512
 import * as migration_20260512_022000_portfoy_sayfa_baglantilari from './20260512_022000_portfoy_sayfa_baglantilari';
 import * as migration_20260512_023000_sayfa_sag_reklam_alani from './20260512_023000_sayfa_sag_reklam_alani';
 import * as migration_20260512_024000_site_baslik_font_linki from './20260512_024000_site_baslik_font_linki';
+import * as migration_20260512_030000_urun_kategori_yonlendirme_linki from './20260512_030000_urun_kategori_yonlendirme_linki';
 
 export const migrations = [
   {
@@ -53,5 +54,10 @@ export const migrations = [
     up: migration_20260512_024000_site_baslik_font_linki.up,
     down: migration_20260512_024000_site_baslik_font_linki.down,
     name: '20260512_024000_site_baslik_font_linki'
+  },
+  {
+    up: migration_20260512_030000_urun_kategori_yonlendirme_linki.up,
+    down: migration_20260512_030000_urun_kategori_yonlendirme_linki.down,
+    name: '20260512_030000_urun_kategori_yonlendirme_linki'
   },
 ];
