@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     aciklama:
       sayfa?.kisa_aciklama ||
       'Atolyen hakkinda marka, tasarim ve uretim yaklasimi.',
-    baslik: sayfa?.baslik || 'Hakkimizda',
+    baslik: sayfa?.baslik || 'Hakkımızda',
     seo: sayfa?.seo,
     yol: '/hakkimizda',
   })
@@ -28,7 +28,7 @@ export default async function HakkimizdaSayfasi() {
     siteReklamlariniGetir('hakkimizda_sag'),
   ])
 
-  const baslik = sayfa?.baslik || 'Hakkimizda'
+  const baslik = sayfa?.baslik || 'Hakkımızda'
   const solGorselUrl = medyaUrlAl(sayfa?.kapak_gorseli as never, 'buyuk')
 
   const metinler = (sayfa?.kisa_aciklama || '')
