@@ -63,14 +63,14 @@ export function WhatsAppSepetKisayolu({ telefon }: WhatsAppSepetKisayoluProps) {
   const whatsappLinki = useMemo(() => {
     const mesaj = sepet.length
       ? [
-          'Merhaba, asagidaki portfoy/proje kalemleri icin bilgi almak istiyorum:',
+          'Merhaba, asagidaki ürünler için bilgi almak istiyorum:',
           ...sepet.map((oge, index) => {
             const fiyat = oge.fiyat ? ` - ${oge.fiyat}` : ''
             const link = oge.slug ? ` (/portfoy/${oge.slug})` : ''
             return `${index + 1}. ${oge.baslik}${fiyat}${link}`
           }),
         ].join('\n')
-      : 'Merhaba, portfoy projeleri hakkinda bilgi almak istiyorum.'
+      : 'Merhaba, bilgi almak istiyorum.'
 
     return `https://wa.me/${temizTelefon}?text=${encodeURIComponent(mesaj)}`
   }, [sepet, temizTelefon])
