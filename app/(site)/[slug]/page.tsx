@@ -260,7 +260,7 @@ export default async function DinamikSayfa({ params }: Props) {
                       kartIcerigi
                     )}
 
-                    {proje.baslik ? (
+                    {proje.baslik && proje.fiyat_metni ? (
                       <PortfoySepetButonu
                         className="mt-2 w-full"
                         oge={{
