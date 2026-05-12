@@ -7,6 +7,20 @@ import {
   siteAyarlariGetir,
 } from '@/kutuphane/icerikler'
 
+function kategoriBaglantisiAl(kategori: unknown) {
+  if (
+    kategori &&
+    typeof kategori === 'object' &&
+    'yonlendirme_linki' in kategori &&
+    typeof kategori.yonlendirme_linki === 'string' &&
+    kategori.yonlendirme_linki.trim()
+  ) {
+    return kategori.yonlendirme_linki.trim()
+  }
+
+  return null
+}
+
 export async function AltBilgi() {
   const [siteAyarlari, altBilgi, iletisim, kategoriler] = await Promise.all([
     siteAyarlariGetir(),
@@ -66,15 +80,24 @@ export async function AltBilgi() {
             Hizmet Alanlari
           </p>
 
-          {kategoriler.slice(0, 5).map((kategori) => (
-            <Link
-              className="block border-b border-white/65 pb-3 leading-normal"
-              href={`/kategoriler/${kategori.slug}`}
-              key={kategori.slug}
-            >
-              {kategori.baslik}
-            </Link>
-          ))}
+          {kategoriler.slice(0, 5).map((kategori, index) => {
+            const href = kategoriBaglantisiAl(kategori)
+            const className = 'block border-b border-white/65 pb-3 leading-normal'
+
+            return href ? (
+              <Link
+                className={className}
+                href={href}
+                key={`${kategori.baslik}-${index}`}
+              >
+                {kategori.baslik}
+              </Link>
+            ) : (
+              <p className={className} key={`${kategori.baslik}-${index}`}>
+                {kategori.baslik}
+              </p>
+            )
+          })}
         </div>
 
         <div className="flex flex-col justify-start gap-6">

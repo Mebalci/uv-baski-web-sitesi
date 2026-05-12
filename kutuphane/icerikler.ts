@@ -196,11 +196,6 @@ export async function siteReklamlariniGetir(konum?: string) {
   }
 }
 
-export async function kategoriGetir(slug: string) {
-  const kategoriler = await kategorileriGetir()
-  return kategoriler.find((kategori) => kategori.slug === slug) ?? null
-}
-
 export async function portfoyleriGetir() {
   const sonuc = await koleksiyonBul('portfoy_projeleri')
   return sonuc?.docs?.length ? sonuc.docs : portfoyOrnekleri

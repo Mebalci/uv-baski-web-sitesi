@@ -316,24 +316,20 @@ export interface Urunler {
 export interface UrunKategorileri {
   id: number;
   /**
-   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
+   * Kategori kartinda ve admin listelerinde gorunecek basliktir.
    */
   baslik: string;
   /**
-   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
-   */
-  slug: string;
-  /**
-   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
+   * Kategori kartlari veya arama sonuclari icin kullanilabilecek kisa aciklama.
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   * Kategori kartinda gorunecek gorsel. Medyalar icinden mevcut gorsel secilebilir veya yeni gorsel yuklenebilir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   one_cikan?: boolean | null;
   /**
-   * Kategori kartina tiklaninca gidilecek ozel adres. Bos birakilirsa kategori detay sayfasina gider. Ornek: /baski veya https://ornek.com
+   * Kategori kartina tiklaninca gidilecek adres. Genelde Sayfalar alaninda olusturdugunuz sayfanin linkini yazin. Ornek: /baski veya https://ornek.com
    */
   yonlendirme_linki?: string | null;
   /**
@@ -1100,7 +1096,6 @@ export interface UrunlerSelect<T extends boolean = true> {
  */
 export interface UrunKategorileriSelect<T extends boolean = true> {
   baslik?: T;
-  slug?: T;
   kisa_aciklama?: T;
   kapak_gorseli?: T;
   one_cikan?: T;

@@ -7,18 +7,15 @@ type HizmetKartProps = {
   baslik: string
   gorsel?: unknown
   href?: string | null
-  slug: string
 }
 
-export function HizmetKart({ baslik, gorsel, href, slug }: HizmetKartProps) {
+export function HizmetKart({ baslik, gorsel, href }: HizmetKartProps) {
   const gorselUrl = medyaUrlAl(gorsel as never, 'buyuk')
-  const hedef = href?.trim() || `/kategoriler/${slug}`
-
-  return (
-    <Link
-      className="group relative block aspect-[740/2400] min-w-0 overflow-hidden bg-[#231f20] lg:aspect-auto lg:h-full lg:min-h-0"
-      href={hedef}
-    >
+  const hedef = href?.trim()
+  const className =
+    'group relative block aspect-[740/2400] min-w-0 overflow-hidden bg-[#231f20] lg:aspect-auto lg:h-full lg:min-h-0'
+  const icerik = (
+    <>
       {gorselUrl ? (
         <Image
           alt={baslik}
@@ -30,6 +27,16 @@ export function HizmetKart({ baslik, gorsel, href, slug }: HizmetKartProps) {
       ) : (
         <div className="absolute inset-0 bg-[#231f20]" />
       )}
+    </>
+  )
+
+  if (!hedef) {
+    return <div className={className}>{icerik}</div>
+  }
+
+  return (
+    <Link className={className} href={hedef}>
+      {icerik}
     </Link>
   )
 }

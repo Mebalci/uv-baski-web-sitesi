@@ -4,6 +4,7 @@ import {
   blogYazilariniGetir,
   kampanyalariGetir,
   kategorileriGetir,
+  portfoyleriGetir,
   sayfalariGetir,
   urunleriGetir,
 } from '@/kutuphane/icerikler'
@@ -23,6 +24,7 @@ type Props = {
 
 type AramaSonucu = {
   aciklama?: string | null
+  aramaMetni?: string | null
   baslik: string
   tip: string
   url: string
@@ -30,35 +32,82 @@ type AramaSonucu = {
 
 type AranabilirKayit = {
   baslik: string
+  icerik?: unknown
   kisa_aciklama?: string | null
-  slug: string
+  musteri_adi?: string | null
+  referans_notu?: string | null
+  slug?: string | null
+  yonlendirme_linki?: string | null
+}
+
+function metneDonustur(deger: unknown): string {
+  if (!deger) {
+    return ''
+  }
+
+  if (typeof deger === 'string') {
+    return deger
+  }
+
+  if (typeof deger === 'number' || typeof deger === 'boolean') {
+    return String(deger)
+  }
+
+  if (Array.isArray(deger)) {
+    return deger.map(metneDonustur).join(' ')
+  }
+
+  if (typeof deger === 'object') {
+    return Object.values(deger).map(metneDonustur).join(' ')
+  }
+
+  return ''
+}
+
+function kategoriBaglantisiAl(kategori: AranabilirKayit) {
+  return kategori.yonlendirme_linki?.trim() || null
 }
 
 function eslesirMi(kayit: AramaSonucu, aranan: string) {
-  const metin = `${kayit.baslik} ${kayit.aciklama || ''}`.toLocaleLowerCase('tr')
+  const metin = `${kayit.baslik} ${kayit.aciklama || ''} ${kayit.aramaMetni || ''}`.toLocaleLowerCase('tr')
   return metin.includes(aranan)
 }
 
 export default async function AramaSayfasi({ searchParams }: Props) {
   const { q } = await searchParams
   const aranan = (q || '').trim().toLocaleLowerCase('tr')
-  const [urunler, kategoriler, blogYazilari, kampanyalar, sayfalar] = await Promise.all([
+  const [urunler, kategoriler, blogYazilari, kampanyalar, sayfalar, portfoyler] = await Promise.all([
     urunleriGetir(),
     kategorileriGetir(),
     blogYazilariniGetir(),
     kampanyalariGetir(),
     sayfalariGetir(),
+    portfoyleriGetir(),
   ])
 
+  const kategoriSonuclari: AramaSonucu[] = (kategoriler as AranabilirKayit[]).reduce(
+    (sonuclar, kategori) => {
+      const url = kategoriBaglantisiAl(kategori)
+
+      if (url) {
+        sonuclar.push({
+          aciklama: kategori.kisa_aciklama,
+          baslik: kategori.baslik,
+          tip: 'Hizmet Alani',
+          url,
+        })
+      }
+
+      return sonuclar
+    },
+    [] as AramaSonucu[],
+  )
+
   const sonuclar: AramaSonucu[] = [
-    ...kategoriler.map((kategori) => ({
-      aciklama: kategori.kisa_aciklama,
-      baslik: kategori.baslik,
-      tip: 'Hizmet Alani',
-      url: `/kategoriler/${kategori.slug}`,
-    })),
-    ...urunler.map((urun) => ({
+    ...kategoriSonuclari,
+    ...(urunler as AranabilirKayit[]).map((urun) => ({
       aciklama: urun.kisa_aciklama,
+      aramaMetni: metneDonustur(urun.icerik),
       baslik: urun.baslik,
       tip: 'Urun',
       url: `/urunler/${urun.slug}`,
@@ -77,9 +126,24 @@ export default async function AramaSayfasi({ searchParams }: Props) {
     })),
     ...(sayfalar as AranabilirKayit[]).map((sayfa) => ({
       aciklama: sayfa.kisa_aciklama,
+      aramaMetni: metneDonustur(sayfa.icerik),
       baslik: sayfa.baslik,
       tip: 'Sayfa',
       url: `/${sayfa.slug}`,
+    })),
+    ...(portfoyler as AranabilirKayit[]).map((portfoy) => ({
+      aciklama: portfoy.kisa_aciklama,
+      aramaMetni: [
+        portfoy.kisa_aciklama,
+        portfoy.musteri_adi,
+        portfoy.referans_notu,
+        metneDonustur(portfoy.icerik),
+      ]
+        .filter(Boolean)
+        .join(' '),
+      baslik: portfoy.baslik,
+      tip: 'Portfoy',
+      url: `/portfoy/${portfoy.slug}`,
     })),
   ].filter((sonuc) => (aranan ? eslesirMi(sonuc, aranan) : false))
 

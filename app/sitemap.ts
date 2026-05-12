@@ -4,7 +4,6 @@ import {
   blogYazilariniGetir,
   entegrasyonAyarlariGetir,
   kampanyalariGetir,
-  kategorileriGetir,
   portfoyleriGetir,
   sayfalariGetir,
   urunleriGetir,
@@ -21,9 +20,8 @@ type SitemapKaydi = {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [urunler, kategoriler, portfoyler, kampanyalar, blogYazilari, sayfalar, entegrasyonAyarlari] = await Promise.all([
+  const [urunler, portfoyler, kampanyalar, blogYazilari, sayfalar, entegrasyonAyarlari] = await Promise.all([
     urunleriGetir(),
-    kategorileriGetir(),
     portfoyleriGetir(),
     kampanyalariGetir(),
     blogYazilariniGetir(),
@@ -69,12 +67,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: degisimTarihi(urun),
       url: mutlakUrl(`/urunler/${urun.slug}`),
     })),
-    ...sitemapKayitlarinaDonustur(kategoriler)
-      .filter(indekslenebilir)
-      .map((kategori) => ({
-        lastModified: degisimTarihi(kategori),
-        url: mutlakUrl(`/kategoriler/${kategori.slug}`),
-      })),
     ...sitemapKayitlarinaDonustur(portfoyler)
       .filter(indekslenebilir)
       .map((kayit) => ({

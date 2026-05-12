@@ -66,8 +66,9 @@ export default async function AnaSayfa() {
     typeof kategori === 'object' &&
     kategori !== null &&
     'yonlendirme_linki' in kategori &&
-    typeof kategori.yonlendirme_linki === 'string'
-      ? kategori.yonlendirme_linki
+    typeof kategori.yonlendirme_linki === 'string' &&
+    kategori.yonlendirme_linki.trim()
+      ? kategori.yonlendirme_linki.trim()
       : null
 
   return (
@@ -112,13 +113,12 @@ export default async function AnaSayfa() {
               />
 
               <div className="grid flex-1 grid-cols-5 gap-3">
-                {hizmetler.map((kategori) => (
+                {hizmetler.map((kategori, index) => (
                   <HizmetKart
                     baslik={kategori.baslik}
                     gorsel={kategori.kapak_gorseli}
                     href={kategoriLinkiAl(kategori)}
-                    key={kategori.slug}
-                    slug={kategori.slug}
+                    key={`${kategori.baslik}-${index}`}
                   />
                 ))}
               </div>
@@ -168,13 +168,12 @@ export default async function AnaSayfa() {
             </div>
 
             <div className="grid grid-cols-5 gap-1.5 sm:gap-2 md:gap-3">
-              {hizmetler.map((kategori) => (
+              {hizmetler.map((kategori, index) => (
                 <HizmetKart
                   baslik={kategori.baslik}
                   gorsel={kategori.kapak_gorseli}
                   href={kategoriLinkiAl(kategori)}
-                  key={kategori.slug}
-                  slug={kategori.slug}
+                  key={`${kategori.baslik}-${index}`}
                 />
               ))}
             </div>
