@@ -76,7 +76,9 @@ function SayfaGorseli({
   url?: string | null
 }) {
   return (
-    <div className={`relative aspect-[9/16] w-full overflow-hidden ${className}`}>
+    <div
+      className={`relative h-[38rem] w-full overflow-hidden xl:h-[44rem] ${className}`}
+    >
       {url ? (
         <Image
           alt={`${baslik} gorseli`}
@@ -99,7 +101,9 @@ function SagReklamKutusu({
   kayitlar: Parameters<typeof ReklamAlani>[0]['kayitlar']
 }) {
   return (
-    <div className={`relative aspect-[9/16] w-full overflow-hidden ${className}`}>
+    <div
+      className={`relative h-[38rem] w-full overflow-hidden xl:h-[44rem] ${className}`}
+    >
       <ReklamAlani className="absolute inset-0 h-full w-full" kayitlar={kayitlar} />
     </div>
   )
@@ -136,6 +140,7 @@ export default async function DinamikSayfa({ params }: Props) {
   const sayfa = sayfaHam as DinamikSayfaVerisi
   const baslik = sayfa.baslik
   const solGorselUrl = medyaUrlAl(sayfa.kapak_gorseli as never, 'buyuk')
+
   const sayfaSagReklamlar = sayfa.sag_reklam_gorseli
     ? [
         {
@@ -147,10 +152,13 @@ export default async function DinamikSayfa({ params }: Props) {
         },
       ]
     : null
+
   const kullanilacakSagReklamlar = sayfaSagReklamlar || sagReklamlar
+
   const portfolyoProjeleri = (await portfoyProjeleriniSayfaIcinGetir(
     sayfa,
   )) as PortfolyoProjesi[]
+
   const portfolyoBolumleri = portfolyoBolumlerineAyir(portfolyoProjeleri)
 
   const metinler = (sayfa.kisa_aciklama || '')
@@ -162,9 +170,13 @@ export default async function DinamikSayfa({ params }: Props) {
     <>
       <section className="mx-auto max-w-[1760px] px-5 pb-16 pt-12 md:px-8 lg:px-[64px]">
         <div className="grid items-start gap-7 lg:grid-cols-[1fr_4fr_1fr] lg:gap-12">
-          <SayfaGorseli baslik={baslik} className="hidden lg:block" url={solGorselUrl} />
+          <SayfaGorseli
+            baslik={baslik}
+            className="hidden lg:block"
+            url={solGorselUrl}
+          />
 
-          <div className="self-center text-left lg:px-3">
+          <div className="self-start text-left lg:px-3">
             <h1 className="font-parisienne relative -top-2 rotate-[-3deg] text-[clamp(4.5rem,11vw,11rem)] font-normal leading-[0.78] text-[var(--atolyen-blue)] lg:-top-5">
               {baslik}
             </h1>
@@ -184,7 +196,10 @@ export default async function DinamikSayfa({ params }: Props) {
             ) : null}
           </div>
 
-          <SagReklamKutusu className="hidden lg:block" kayitlar={kullanilacakSagReklamlar} />
+          <SagReklamKutusu
+            className="hidden lg:block"
+            kayitlar={kullanilacakSagReklamlar}
+          />
 
           <div className="grid grid-cols-2 gap-4 lg:hidden">
             <SayfaGorseli baslik={baslik} url={solGorselUrl} />
@@ -202,7 +217,11 @@ export default async function DinamikSayfa({ params }: Props) {
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-3 lg:grid-cols-4">
               {bolum.projeler.slice(0, 12).map((proje, index) => {
-                const projeGorselUrl = medyaUrlAl(proje.kapak_gorseli as never, 'buyuk')
+                const projeGorselUrl = medyaUrlAl(
+                  proje.kapak_gorseli as never,
+                  'buyuk',
+                )
+
                 const kartIcerigi = (
                   <>
                     <div className="relative aspect-[4/3] overflow-hidden bg-black">
@@ -240,6 +259,7 @@ export default async function DinamikSayfa({ params }: Props) {
                     ) : (
                       kartIcerigi
                     )}
+
                     {proje.baslik ? (
                       <PortfoySepetButonu
                         className="mt-2 w-full"
