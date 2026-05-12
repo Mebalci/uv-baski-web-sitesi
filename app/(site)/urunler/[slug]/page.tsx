@@ -48,7 +48,7 @@ export default async function UrunDetaySayfasi({ params }: Props) {
               {gorselUrl ? (
                 <Image
                   alt={urun.baslik}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-fill"
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 56vw"

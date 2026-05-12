@@ -20,6 +20,7 @@ export default async function PortfoySayfasi() {
         aciklama="Kısa açıklamalarla değil, uygulamanın bıraktığı etkiyle hatırlanan işlerden seçki."
         baslik="Portföy"
         etiket="Referanslar"
+        hizalama="right"
       />
       <div className="mt-12">
         <PortfoyGaleri kayitlar={portfoyler} />

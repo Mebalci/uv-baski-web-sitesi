@@ -1,6 +1,8 @@
+import Link from 'next/link'
+
 export function CikisYapButonu() {
   return (
-    <a
+    <Link
       href="/admin/logout"
       style={{
         alignItems: 'center',
@@ -18,6 +20,6 @@ export function CikisYapButonu() {
       }}
     >
       Çıkış Yap
-    </a>
+    </Link>
   )
 }

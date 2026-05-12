@@ -8,8 +8,9 @@ const sitemap = readFileSync(new URL('../app/sitemap.ts', import.meta.url), 'utf
 assert.match(payloadConfig, /postgresAdapter/)
 assert.match(payloadConfig, /s3Storage/)
 assert.match(payloadConfig, /yoneticiler/)
-assert.match(anaSayfa, /HeroAlan/)
-assert.match(anaSayfa, /TeklifFormu/)
+assert.match(payloadConfig, /SiteReklamlari/)
+assert.match(anaSayfa, /ReklamAlani/)
+assert.match(anaSayfa, /HizmetKart/)
 assert.match(sitemap, /MetadataRoute\.Sitemap/)
 
 console.log('Testler basariyla gecti.')

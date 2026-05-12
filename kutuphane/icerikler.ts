@@ -1,64 +1,20 @@
 import { payloadAl } from '@/kutuphane/payload'
 import {
+  anaSayfaIcerigiOrnek,
   blogOrnekleri,
   kampanyaOrnekleri,
   kategoriOrnekleri,
   portfoyOrnekleri,
+  reklamOrnekleri,
   siteAyarlariOrnek,
   urunOrnekleri,
 } from '@/kutuphane/ornek-veriler'
-
-const anaSayfaOrnek = {
-  blog_aciklama: 'SEO degeri tasiyan ve satin alma kararini kolaylastiran rehber icerikler.',
-  blog_baslik: 'Bilgi arayan ziyaretciyi guvenen musteriye ceviren net icerikler.',
-  hero_birincil_buton_link: '/iletisim',
-  hero_birincil_buton_metin: 'Teklif Al',
-  hero_etiket: 'Premium UV Baski Deneyimi',
-  hero_gorseli: null,
-  hero_ikincil_buton_link: '/portfoy',
-  hero_ikincil_buton_metin: 'Portfoyu Incele',
-  hero_baslik: 'Yuzeye degil algiya baski yapan kurumsal uretim.',
-  hero_kayitlari: [
-    {
-      baslik: 'Yuzeye degil algiya baski yapan kurumsal uretim.',
-      birincil_buton_link: '/iletisim',
-      birincil_buton_metin: 'Teklif Al',
-      etiket: 'Premium UV Baski Deneyimi',
-      gorsel: null,
-      ikincil_buton_link: '/portfoy',
-      ikincil_buton_metin: 'Portfoyu Incele',
-      metin:
-        'Kurumsal promosyonlardan sert yuzey baskilarina kadar, uretim hizini ve gorsel kaliteyi ayni anda buyuten UV baski cozumleri.',
-    },
-  ],
-  hero_metin:
-    'Kurumsal promosyonlardan sert yuzey baskilarina kadar, uretim hizini ve gorsel kaliteyi ayni anda buyuten UV baski cozumleri.',
-  istatistikler: [
-    { aciklama: 'hizli teklif donusu', deger: '24 saat' },
-    { aciklama: 'farkli yuzey secenegi', deger: '12+' },
-    { aciklama: 'kurumsal proje odagi', deger: 'B2B' },
-  ],
-  kampanya_aciklama: 'Kisa sureli avantajlari net bir deger onerisi olarak sunun.',
-  kampanya_baslik: 'Kampanyalar, satis baskisi degil netlik uretsin.',
-  kategori_aciklama: 'Urun ailelerini sade bir katalog yapisinda sunun.',
-  kategori_baslik: 'Kategori bazli, sakin ve anlasilir bir vitrin.',
-  portfoy_aciklama: 'Uygulamanin hacmini degil markaya kattigi etkiyi gosterin.',
-  portfoy_baslik: 'Portfoy, anlatidan cok guven kuran ikinci yuzunuz olsun.',
-  surec_adimlari: [
-    { aciklama: 'Ihtiyac, adet ve yuzey tipini netlestiririz.', adim: 'Kesif' },
-    { aciklama: 'Numune, revize ve uygulama planini birlikte netleriz.', adim: 'Onay' },
-    { aciklama: 'Uretim ve teslim akisini kontrollu sekilde tamamlariz.', adim: 'Teslim' },
-  ],
-  teklif_aciklama: 'Iletisim, WhatsApp ve teklif formunu tek akista bulusturun.',
-  teklif_baslik: 'Ilk temasi e-postaya degil net bir briefe donusturun.',
-  urun_aciklama: 'Secili urunlerde fiyat gorunur, digerlerinde dogrudan teklif akisi vardir.',
-  urun_baslik: 'Secimi kolaylastiran temiz ve hizli bir katalog deneyimi.',
-}
 
 const iletisimOrnek = {
   adres: 'Maslak, Istanbul',
   calisma_saatleri: 'Hafta ici 09:00 - 18:30',
   eposta: 'merhaba@novauvbaski.com',
+  sol_gorsel: null,
   telefon: '+90 212 555 11 22',
 }
 
@@ -74,9 +30,9 @@ const ustBilgiOrnek = {
 
 const altBilgiOrnek = {
   linkler: [
-    { baglanti: '/urunler', etiket: 'Urunler' },
-    { baglanti: '/portfoy', etiket: 'Portfoy' },
-    { baglanti: '/blog', etiket: 'Blog' },
+    { baglanti: '/', etiket: 'Anasayfa' },
+    { baglanti: '/hakkimizda', etiket: 'Hakkimizda' },
+    { baglanti: '/iletisim', etiket: 'Iletisim' },
   ],
   metin: 'Kurumsal markalar icin UV baski, promosyon ve magaza ici uygulamalari tek uretim hattinda planliyoruz.',
 }
@@ -142,26 +98,9 @@ export async function altBilgiGetir() {
 
 export async function anaSayfaIcerigiGetir() {
   try {
-    const sonuc = (await globalBul('ana_sayfa_icerigi')) || anaSayfaOrnek
-
-    if (!sonuc.hero_kayitlari?.length && (sonuc.hero_baslik || sonuc.hero_metin || sonuc.hero_gorseli)) {
-      sonuc.hero_kayitlari = [
-        {
-          baslik: sonuc.hero_baslik,
-          birincil_buton_link: sonuc.hero_birincil_buton_link,
-          birincil_buton_metin: sonuc.hero_birincil_buton_metin,
-          etiket: sonuc.hero_etiket,
-          gorsel: sonuc.hero_gorseli,
-          ikincil_buton_link: sonuc.hero_ikincil_buton_link,
-          ikincil_buton_metin: sonuc.hero_ikincil_buton_metin,
-          metin: sonuc.hero_metin,
-        },
-      ]
-    }
-
-    return sonuc
+    return (await globalBul('ana_sayfa_icerigi')) || anaSayfaIcerigiOrnek
   } catch {
-    return anaSayfaOrnek
+    return anaSayfaIcerigiOrnek
   }
 }
 
@@ -216,6 +155,34 @@ export async function kategorileriGetir() {
   return sonuc?.docs?.length ? sonuc.docs : kategoriOrnekleri
 }
 
+export async function siteReklamlariniGetir(konum?: string) {
+  const payload = await payloadAl()
+
+  if (!payload) {
+    return konum ? reklamOrnekleri.filter((reklam) => reklam.konum === konum) : reklamOrnekleri
+  }
+
+  try {
+    const sonuc = await payload.find({
+      collection: 'site_reklamlari' as never,
+      depth: 2,
+      limit: 20,
+      sort: 'sira_no',
+      where: konum
+        ? {
+            konum: {
+              equals: konum,
+            },
+          }
+        : undefined,
+    })
+
+    return sonuc.docs?.length ? sonuc.docs : konum ? reklamOrnekleri.filter((reklam) => reklam.konum === konum) : reklamOrnekleri
+  } catch {
+    return konum ? reklamOrnekleri.filter((reklam) => reklam.konum === konum) : reklamOrnekleri
+  }
+}
+
 export async function kategoriGetir(slug: string) {
   const kategoriler = await kategorileriGetir()
   return kategoriler.find((kategori) => kategori.slug === slug) ?? null
@@ -229,6 +196,35 @@ export async function portfoyleriGetir() {
 export async function portfoyGetir(slug: string) {
   const portfoyler = await portfoyleriGetir()
   return portfoyler.find((oge) => oge.slug === slug) ?? null
+}
+
+export async function portfoyProjeleriniSayfaIcinGetir(sayfa: { id?: number | string; slug?: string | null }) {
+  const portfoyler = await portfoyleriGetir()
+  const sayfaId = sayfa.id != null ? String(sayfa.id) : null
+  const sayfaSlug = sayfa.slug ? String(sayfa.slug) : null
+
+  return portfoyler.filter((proje) => {
+    const projeKaydi = proje as { sayfalar?: unknown[] | null }
+    const bagliSayfalar = Array.isArray(projeKaydi.sayfalar) ? projeKaydi.sayfalar : []
+
+    return bagliSayfalar.some((bagliSayfa: unknown) => {
+      if (typeof bagliSayfa === 'number' || typeof bagliSayfa === 'string') {
+        return sayfaId ? String(bagliSayfa) === sayfaId : false
+      }
+
+      if (bagliSayfa && typeof bagliSayfa === 'object') {
+        const bagliSayfaId = 'id' in bagliSayfa ? String(bagliSayfa.id) : null
+        const bagliSayfaSlug = 'slug' in bagliSayfa ? String(bagliSayfa.slug) : null
+
+        return Boolean(
+          (sayfaId && bagliSayfaId === sayfaId) ||
+            (sayfaSlug && bagliSayfaSlug === sayfaSlug),
+        )
+      }
+
+      return false
+    })
+  })
 }
 
 export async function kampanyalariGetir() {

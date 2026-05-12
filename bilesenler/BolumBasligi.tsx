@@ -1,7 +1,7 @@
 type BolumBasligiProps = {
   aciklama?: string
   etiket?: string
-  hizalama?: 'left' | 'center'
+  hizalama?: 'left' | 'center' | 'right'
   baslik?: string
 }
 
@@ -11,7 +11,12 @@ export function BolumBasligi({
   hizalama = 'left',
   baslik,
 }: BolumBasligiProps) {
-  const kapsayiciSinifi = hizalama === 'center' ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'
+  const kapsayiciSinifi =
+    hizalama === 'center'
+      ? 'mx-auto max-w-3xl text-center'
+      : hizalama === 'right'
+        ? 'ml-auto max-w-3xl text-right'
+        : 'max-w-3xl'
 
   return (
     <div className={kapsayiciSinifi}>

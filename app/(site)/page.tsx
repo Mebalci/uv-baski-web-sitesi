@@ -1,213 +1,196 @@
-import Link from 'next/link'
-
-import { BolumBasligi } from '@/bilesenler/BolumBasligi'
-import { HeroAlan } from '@/bilesenler/HeroAlan'
-import { KampanyaSeridi } from '@/bilesenler/KampanyaSeridi'
-import { PortfoyGaleri } from '@/bilesenler/PortfoyGaleri'
+import { ReklamAlani } from '@/bilesenler/ReklamAlani'
+import { HizmetKart } from '@/bilesenler/HizmetKart'
 import { TeklifFormu } from '@/bilesenler/TeklifFormu'
-import { UrunKart } from '@/bilesenler/UrunKart'
 import {
   anaSayfaIcerigiGetir,
-  blogYazilariniGetir,
-  iletisimBilgileriGetir,
-  kampanyalariGetir,
   kategorileriGetir,
-  portfoyleriGetir,
   siteAyarlariGetir,
-  urunleriGetir,
+  siteReklamlariniGetir,
 } from '@/kutuphane/icerikler'
-import { medyaUrlAl } from '@/kutuphane/medya'
 import { jsonLdBetigi } from '@/kutuphane/seo'
 import { siteUrlAl } from '@/kutuphane/yardimcilar'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AnaSayfa() {
-  const [siteAyarlari, anaSayfaIcerigi, iletisim, kategoriler, urunler, portfoyler, kampanyalar, blogYazilari] =
-    await Promise.all([
-      siteAyarlariGetir(),
-      anaSayfaIcerigiGetir(),
-      iletisimBilgileriGetir(),
-      kategorileriGetir(),
-      urunleriGetir(),
-      portfoyleriGetir(),
-      kampanyalariGetir(),
-      blogYazilariniGetir(),
-    ])
+  const [
+    siteAyarlari,
+    anaSayfaIcerigi,
+    kategoriler,
+    solUstReklamlar,
+    heroReklamlar,
+    solAltReklamlar,
+    altReklamlar,
+  ] = await Promise.all([
+    siteAyarlariGetir(),
+    anaSayfaIcerigiGetir(),
+    kategorileriGetir(),
+    siteReklamlariniGetir('anasayfa_sol_ust'),
+    siteReklamlariniGetir('anasayfa_hero'),
+    siteReklamlariniGetir('anasayfa_sol_alt'),
+    siteReklamlariniGetir('anasayfa_alt'),
+  ])
 
-  const yaziVarmi = (deger?: string | null) => Boolean(deger?.trim())
   const siteUrl = siteUrlAl()
 
-  const heroKayitlari =
-    anaSayfaIcerigi.hero_kayitlari?.length
-      ? anaSayfaIcerigi.hero_kayitlari.map((kayit) => ({
-          aciklama: kayit.metin,
-          baslik: kayit.baslik,
-          birincilButonLink: kayit.birincil_buton_link,
-          birincilButonMetin: kayit.birincil_buton_metin,
-          etiket: kayit.etiket,
-          gorselUrl: medyaUrlAl(kayit.gorsel as never, 'buyuk'),
-          ikincilButonLink: kayit.ikincil_buton_link,
-          ikincilButonMetin: kayit.ikincil_buton_metin,
-        }))
-      : [
-          {
-            aciklama: anaSayfaIcerigi.hero_metin,
-            baslik: anaSayfaIcerigi.hero_baslik,
-            birincilButonLink: anaSayfaIcerigi.hero_birincil_buton_link,
-            birincilButonMetin: anaSayfaIcerigi.hero_birincil_buton_metin,
-            etiket: anaSayfaIcerigi.hero_etiket,
-            gorselUrl: medyaUrlAl(anaSayfaIcerigi.hero_gorseli as never, 'buyuk'),
-            ikincilButonLink: anaSayfaIcerigi.hero_ikincil_buton_link,
-            ikincilButonMetin: anaSayfaIcerigi.hero_ikincil_buton_metin,
-          },
-        ]
+  const kartGorselliKategoriler = kategoriler.filter(
+    (kategori) => kategori.kapak_gorseli
+  )
+
+  const hizmetler = (
+    kartGorselliKategoriler.length ? kartGorselliKategoriler : kategoriler
+  ).slice(0, 5)
+
+  const anaSayfaVerisi = anaSayfaIcerigi as {
+    kategori_aciklama?: string | null
+    metin_paragraflari?: Array<{
+      metin?: string | null
+    }> | null
+  }
+
+  const girisMetinleri =
+    anaSayfaVerisi.metin_paragraflari
+      ?.map((paragraf) => paragraf.metin)
+      .filter((metin): metin is string => Boolean(metin?.trim())) || []
+
+  const eskiMetinler = anaSayfaVerisi.kategori_aciklama
+    ?.split(/\n\s*\n/)
+    .map((metin) => metin.trim())
+    .filter(Boolean)
+
+  const anaSayfaMetinleri = girisMetinleri.length
+    ? girisMetinleri
+    : eskiMetinler || []
 
   return (
     <>
-      <HeroAlan istatistikler={anaSayfaIcerigi.istatistikler} kayitlar={heroKayitlari} />
+      <section className="w-full px-5 py-5 md:px-8 md:py-6 lg:px-[64px]">
+        <div className="mx-auto max-w-[1870px]">
+          <div className="hidden gap-6 lg:grid lg:h-[1100px] lg:grid-cols-[1fr_3.26fr] xl:h-[1180px]">
+            <aside className="grid h-full gap-6 lg:grid-rows-[260px_472px_320px] xl:grid-rows-[280px_532px_320px]">
+              <ReklamAlani kayitlar={solUstReklamlar} />
 
-      <section className="pt-20">
-        <div className="mx-auto grid max-w-7xl gap-14 px-5 md:grid-cols-[0.86fr,1.14fr] md:px-8">
-          <BolumBasligi
-            aciklama={anaSayfaIcerigi.kategori_aciklama}
-            baslik={anaSayfaIcerigi.kategori_baslik}
-            etiket={yaziVarmi(anaSayfaIcerigi.kategori_baslik) || yaziVarmi(anaSayfaIcerigi.kategori_aciklama) ? 'Kategoriler' : undefined}
-          />
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            {kategoriler.slice(0, 4).map((kategori) => (
-              <Link
-                className="group block rounded-[1.6rem] border border-slate-200 bg-white p-6 shadow-[0_14px_32px_rgba(15,23,42,0.04)] transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_20px_46px_rgba(15,23,42,0.08)]"
-                href={`/kategoriler/${kategori.slug}`}
-                key={kategori.slug}
-              >
-                <p className="text-2xl font-semibold tracking-[-0.05em] text-slate-950">{kategori.baslik}</p>
-                <p className="mt-4 text-sm leading-7 text-slate-600">{kategori.kisa_aciklama}</p>
-                <span className="mt-8 inline-flex text-sm text-slate-400 transition-colors duration-200 group-hover:text-slate-950">
-                  Kategoriyi Incele
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="pt-20">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <BolumBasligi
-            aciklama={anaSayfaIcerigi.urun_aciklama}
-            baslik={anaSayfaIcerigi.urun_baslik}
-            etiket={yaziVarmi(anaSayfaIcerigi.urun_baslik) || yaziVarmi(anaSayfaIcerigi.urun_aciklama) ? 'One Cikan Urunler' : undefined}
-          />
-
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
-            {urunler.slice(0, 3).map((urun) => (
-              <UrunKart
-                baslangic_fiyati={urun.baslangic_fiyati}
-                baslik={urun.baslik}
-                fiyat_gosterilsin_mi={urun.fiyat_gosterilsin_mi}
-                kapak_gorseli={urun.kapak_gorseli}
-                kategori={typeof urun.kategori === 'object' ? urun.kategori : null}
-                kisa_aciklama={urun.kisa_aciklama}
-                key={urun.slug}
-                slug={urun.slug}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="pt-20">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <BolumBasligi
-            aciklama={anaSayfaIcerigi.portfoy_aciklama}
-            baslik={anaSayfaIcerigi.portfoy_baslik}
-            etiket={yaziVarmi(anaSayfaIcerigi.portfoy_baslik) || yaziVarmi(anaSayfaIcerigi.portfoy_aciklama) ? 'Portfoy' : undefined}
-          />
-
-          <div className="mt-12">
-            <PortfoyGaleri kayitlar={portfoyler.slice(0, 4)} />
-          </div>
-        </div>
-      </section>
-
-      <section className="pt-20">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <BolumBasligi
-            aciklama={anaSayfaIcerigi.kampanya_aciklama}
-            baslik={anaSayfaIcerigi.kampanya_baslik}
-            etiket={yaziVarmi(anaSayfaIcerigi.kampanya_baslik) || yaziVarmi(anaSayfaIcerigi.kampanya_aciklama) ? 'Kampanyalar' : undefined}
-          />
-
-          <div className="mt-12">
-            <KampanyaSeridi kampanyalar={kampanyalar.slice(0, 2)} />
-          </div>
-        </div>
-      </section>
-
-      <section className="pt-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-[0.82fr,1.18fr] md:px-8">
-          <BolumBasligi etiket={(anaSayfaIcerigi.surec_adimlari || []).length ? 'Surec' : undefined} />
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {(anaSayfaIcerigi.surec_adimlari || []).slice(0, 3).map((adim, index) => (
-              <div
-                className="rounded-[1.6rem] border border-slate-200 bg-white p-6 shadow-[0_14px_32px_rgba(15,23,42,0.04)]"
-                key={`${adim.adim}-${index}`}
-              >
-                <p className="text-xs uppercase tracking-[0.24em] text-slate-400">0{index + 1}</p>
-                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-slate-950">{adim.adim}</h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">{adim.aciklama}</p>
+              <div className="flex h-full flex-col justify-center overflow-hidden bg-white p-3 text-right text-[clamp(9px,0.72vw,15.5px)] font-medium leading-[1.32] tracking-[0.003em] text-black xl:p-5 xl:text-[clamp(12px,0.78vw,15.5px)] xl:leading-[1.42]">
+                <div className="space-y-2 xl:space-y-4">
+                  {anaSayfaMetinleri.length ? (
+                    anaSayfaMetinleri
+                      .slice(0, 5)
+                      .map((metin, index) => <p key={index}>{metin}</p>)
+                  ) : (
+                    <>
+                      <p>
+                        Fikrin tasarimla bulustugu, hayalin uretime donustugu
+                        yaratici bir atolye. Her projeye ozgun bir bakis
+                        acisiyla yaklasir, markalarin kimligini en dogru
+                        sekilde yansitacak cozumler uretiriz.
+                      </p>
+                      <p>
+                        Dijital baskidan matbaa cozumlerine, serigrafiden
+                        promosyon urunlerine kadar genis uretim gucumuzle
+                        fikirlerinizi somutlastiriyoruz.
+                      </p>
+                    </>
+                  )}
+                </div>
               </div>
-            ))}
+
+              <ReklamAlani kayitlar={solAltReklamlar} />
+            </aside>
+
+            <main className="grid h-full gap-6 lg:grid-rows-[260px_1fr_190px] xl:grid-rows-[280px_1fr_190px]">
+              <ReklamAlani
+                kayitlar={heroReklamlar}
+                metinClassName="text-2xl"
+              />
+
+              <div className="grid flex-1 grid-cols-5 gap-3">
+                {hizmetler.map((kategori) => (
+                  <HizmetKart
+                    baslik={kategori.baslik}
+                    gorsel={kategori.kapak_gorseli}
+                    key={kategori.slug}
+                    slug={kategori.slug}
+                  />
+                ))}
+              </div>
+
+              <ReklamAlani
+                kayitlar={altReklamlar}
+                metinClassName="text-2xl"
+              />
+            </main>
           </div>
-        </div>
-      </section>
 
-      <section className="pt-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-[0.82fr,1.18fr] md:px-8">
-          <BolumBasligi
-            aciklama={anaSayfaIcerigi.blog_aciklama}
-            baslik={anaSayfaIcerigi.blog_baslik}
-            etiket={yaziVarmi(anaSayfaIcerigi.blog_baslik) || yaziVarmi(anaSayfaIcerigi.blog_aciklama) ? 'Blog' : undefined}
-          />
+          <div className="grid grid-cols-1 gap-5 lg:hidden">
+            <div className="grid grid-cols-[1fr_3.26fr] gap-3 md:gap-4">
+              <ReklamAlani
+                className="min-h-[130px] sm:min-h-[190px] md:min-h-[230px]"
+                kayitlar={solUstReklamlar}
+                metinClassName="text-xs"
+              />
 
-          <div className="space-y-4">
-            {blogYazilari.slice(0, 3).map((yazi) => (
-              <Link
-                className="group block rounded-[1.6rem] border border-slate-200 bg-white p-6 shadow-[0_14px_32px_rgba(15,23,42,0.04)] transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_20px_46px_rgba(15,23,42,0.08)]"
-                href={`/blog/${yazi.slug}`}
-                key={yazi.slug}
-              >
-                <p className="text-xl font-semibold tracking-[-0.04em] text-slate-950">{yazi.baslik}</p>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{yazi.kisa_aciklama}</p>
-                <span className="mt-6 inline-flex text-sm text-slate-400 transition-colors duration-200 group-hover:text-slate-950">
-                  Yaziyi Oku
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-28 pt-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-[0.82fr,1.18fr] md:px-8">
-          <div>
-            <BolumBasligi
-              aciklama={anaSayfaIcerigi.teklif_aciklama}
-              baslik={anaSayfaIcerigi.teklif_baslik}
-              etiket={yaziVarmi(anaSayfaIcerigi.teklif_baslik) || yaziVarmi(anaSayfaIcerigi.teklif_aciklama) ? 'Teklif' : undefined}
-            />
-            <div className="mt-10 grid gap-3 text-sm leading-7 text-slate-600">
-              {iletisim.telefon || siteAyarlari.telefon ? <p>Telefon: {iletisim.telefon || siteAyarlari.telefon}</p> : null}
-              {iletisim.eposta || siteAyarlari.eposta ? <p>E-posta: {iletisim.eposta || siteAyarlari.eposta}</p> : null}
-              {iletisim.adres || siteAyarlari.adres ? <p>Adres: {iletisim.adres || siteAyarlari.adres}</p> : null}
-              {iletisim.calisma_saatleri ? <p>Calisma Saatleri: {iletisim.calisma_saatleri}</p> : null}
+              <ReklamAlani
+                className="min-h-[130px] sm:min-h-[190px] md:min-h-[230px]"
+                kayitlar={heroReklamlar}
+                metinClassName="text-xs"
+              />
             </div>
+
+            <div className="space-y-3 overflow-hidden bg-white p-4 text-center text-[clamp(11px,3vw,15px)] font-semibold leading-[1.35] text-black sm:space-y-4 sm:p-5 sm:text-[clamp(12px,3.35vw,15px)] sm:leading-snug">
+              {anaSayfaMetinleri.length ? (
+                anaSayfaMetinleri
+                  .slice(0, 5)
+                  .map((metin, index) => <p key={index}>{metin}</p>)
+              ) : (
+                <>
+                  <p>
+                    Fikrin tasarimla bulustugu, hayalin uretime donustugu
+                    yaratici bir atolye. Her projeye ozgun bir bakis acisiyla
+                    yaklasir, markalarin kimligini en dogru sekilde yansitacak
+                    cozumler uretiriz.
+                  </p>
+                  <p>
+                    Dijital baskidan matbaa cozumlerine, serigrafiden promosyon
+                    urunlerine kadar genis uretim gucumuzle fikirlerinizi
+                    somutlastiriyoruz.
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div className="grid grid-cols-5 gap-1.5 sm:gap-2 md:gap-3">
+              {hizmetler.map((kategori) => (
+                <HizmetKart
+                  baslik={kategori.baslik}
+                  gorsel={kategori.kapak_gorseli}
+                  key={kategori.slug}
+                  slug={kategori.slug}
+                />
+              ))}
+            </div>
+
+            <ReklamAlani
+              className="aspect-[1135/900] max-h-[220px] sm:max-h-[260px]"
+              kayitlar={solAltReklamlar}
+            />
+
+            <ReklamAlani
+              className="aspect-[3700/739] max-h-[160px] sm:max-h-[190px]"
+              kayitlar={altReklamlar}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full px-5 py-14 md:px-8 lg:px-[64px]">
+        <div className="mx-auto flex max-w-[920px] flex-col items-center">
+          <div className="mb-10 inline-flex px-3 py-3 text-xl font-bold uppercase tracking-wide text-slate-900 md:text-2xl">
+            TEKLIF AL
           </div>
 
-          <TeklifFormu konu="Genel Teklif Talebi" />
+          <div className="w-full">
+            <TeklifFormu konu="Ana sayfa teklif talebi" />
+          </div>
         </div>
       </section>
 

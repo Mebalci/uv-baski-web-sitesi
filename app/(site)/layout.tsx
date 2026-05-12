@@ -3,10 +3,73 @@ import Script from 'next/script'
 
 import { AltBilgi } from '@/bilesenler/AltBilgi'
 import { UstMenu } from '@/bilesenler/UstMenu'
-import { entegrasyonAyarlariGetir, siteAyarlariGetir } from '@/kutuphane/icerikler'
+import { WhatsAppSepetKisayolu } from '@/bilesenler/WhatsAppSepetKisayolu'
+import {
+  entegrasyonAyarlariGetir,
+  iletisimBilgileriGetir,
+  siteAyarlariGetir,
+} from '@/kutuphane/icerikler'
 import { jsonLdBetigi, metadataOlustur } from '@/kutuphane/seo'
 import { siteUrlAl } from '@/kutuphane/yardimcilar'
 import '../globals.css'
+
+function guvenliFontAdi(fontAdi?: string | null) {
+  const temiz = fontAdi?.trim()
+
+  if (!temiz || !/^[\p{L}\p{N}\s_-]+$/u.test(temiz)) {
+    return 'Parisienne'
+  }
+
+  return temiz
+}
+
+function googleFontBilgisiAl(fontLinki?: string | null) {
+  const temiz = fontLinki?.trim()
+
+  if (!temiz) {
+    return {
+      cssUrl: 'https://fonts.googleapis.com/css2?family=Parisienne&display=swap',
+      fontFamily: "'Parisienne', 'Segoe Script', 'Brush Script MT', cursive",
+    }
+  }
+
+  try {
+    const ayrilan = new URL(temiz)
+
+    if (ayrilan.hostname === 'fonts.google.com' && ayrilan.pathname.startsWith('/specimen/')) {
+      const fontAdi = guvenliFontAdi(
+        decodeURIComponent(ayrilan.pathname.replace('/specimen/', '').replaceAll('+', ' ')),
+      )
+
+      return {
+        cssUrl: `https://fonts.googleapis.com/css2?family=${fontAdi.replaceAll(' ', '+')}&display=swap`,
+        fontFamily: `'${fontAdi.replaceAll("'", '')}', 'Segoe Script', 'Brush Script MT', cursive`,
+      }
+    }
+
+    if (ayrilan.hostname === 'fonts.googleapis.com' && ayrilan.pathname.startsWith('/css')) {
+      const family = ayrilan.searchParams.get('family')?.split(':')[0]?.replaceAll('+', ' ')
+      const fontAdi = guvenliFontAdi(family)
+
+      return {
+        cssUrl: ayrilan.toString(),
+        fontFamily: `'${fontAdi.replaceAll("'", '')}', 'Segoe Script', 'Brush Script MT', cursive`,
+      }
+    }
+  } catch {
+    const fontAdi = guvenliFontAdi(temiz)
+
+    return {
+      cssUrl: `https://fonts.googleapis.com/css2?family=${fontAdi.replaceAll(' ', '+')}&display=swap`,
+      fontFamily: `'${fontAdi.replaceAll("'", '')}', 'Segoe Script', 'Brush Script MT', cursive`,
+    }
+  }
+
+  return {
+    cssUrl: 'https://fonts.googleapis.com/css2?family=Parisienne&display=swap',
+    fontFamily: "'Parisienne', 'Segoe Script', 'Brush Script MT', cursive",
+  }
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const [ayarlar, entegrasyonAyarlari] = await Promise.all([
@@ -37,17 +100,25 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const [ayarlar, entegrasyonAyarlari] = await Promise.all([
+  const [ayarlar, entegrasyonAyarlari, iletisim] = await Promise.all([
     siteAyarlariGetir(),
     entegrasyonAyarlariGetir(),
+    iletisimBilgileriGetir(),
   ])
   const siteUrl = siteUrlAl()
   const analyticsId = entegrasyonAyarlari.google_analytics_olcum_kimligi?.trim()
   const tagManagerId = entegrasyonAyarlari.google_tag_manager_kimligi?.trim()
+  const baslikFontAyarlari = ayarlar as { baslik_font_linki?: string | null }
+  const baslikFontu = googleFontBilgisiAl(baslikFontAyarlari.baslik_font_linki)
 
   return (
-    <html lang="tr">
-      <body>
+    <html lang="tr" data-scroll-behavior="smooth">
+      <head>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossOrigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link href={baslikFontu.cssUrl} rel="stylesheet" />
+      </head>
+      <body style={{ '--atolyen-heading-font': baslikFontu.fontFamily } as React.CSSProperties}>
         {tagManagerId ? (
           <noscript>
             <iframe
@@ -87,6 +158,7 @@ export default async function RootLayout({
         ) : null}
         <UstMenu />
         <main>{children}</main>
+        <WhatsAppSepetKisayolu telefon={iletisim.telefon || ayarlar.telefon} />
         <AltBilgi />
         <script
           dangerouslySetInnerHTML={jsonLdBetigi({

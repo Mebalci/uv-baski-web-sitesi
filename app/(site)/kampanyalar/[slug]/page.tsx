@@ -48,7 +48,7 @@ export default async function KampanyaDetaySayfasi({ params }: Props) {
             {gorselUrl ? (
               <Image
                 alt={kampanya.baslik || 'Kampanya görseli'}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-fill"
                 fill
                 priority
                 sizes="100vw"

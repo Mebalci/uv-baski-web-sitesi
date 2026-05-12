@@ -25,7 +25,7 @@ export const AltBilgi: GlobalConfig = {
       fields: [
         {
           admin: {
-            description: 'Footer bağlantısında görünen metin.',
+            description: 'Footer bağlantısında görünen sosyal medya .',
           },
           label: 'Etiket',
           name: 'etiket',
@@ -34,7 +34,7 @@ export const AltBilgi: GlobalConfig = {
         },
         {
           admin: {
-            description: 'Örnek: /iletisim, /kvkk veya harici bağlantı.',
+            description: 'Örnek: /iletisim, /kvkk /https veya harici bağlantı.',
           },
           label: 'Bağlantı',
           name: 'baglanti',

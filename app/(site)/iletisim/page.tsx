@@ -1,35 +1,94 @@
-import { BolumBasligi } from '@/bilesenler/BolumBasligi'
-import { TeklifFormu } from '@/bilesenler/TeklifFormu'
-import { iletisimBilgileriGetir, siteAyarlariGetir } from '@/kutuphane/icerikler'
-import { metadataOlustur } from '@/kutuphane/seo'
+import Image from 'next/image'
+import Link from 'next/link'
+import type { Metadata } from 'next'
 
-export const metadata = metadataOlustur({
-  aciklama: 'UV baski, promosyon urunleri ve kurumsal uygulamalar icin hizli teklif formu.',
-  baslik: 'Iletisim',
-  yol: '/iletisim',
-})
+import { ReklamAlani } from '@/bilesenler/ReklamAlani'
+import {
+  iletisimBilgileriGetir,
+  altBilgiGetir,
+  sayfaGetir,
+  siteAyarlariGetir,
+  siteReklamlariniGetir,
+} from '@/kutuphane/icerikler'
+import { medyaUrlAl } from '@/kutuphane/medya'
+import { metadataOlustur } from '@/kutuphane/seo'
 
 export const dynamic = 'force-dynamic'
 
+export async function generateMetadata(): Promise<Metadata> {
+  const sayfa = await sayfaGetir('iletisim')
+
+  return metadataOlustur({
+    aciklama:
+      sayfa?.kisa_aciklama || 'UV baski, promosyon urunleri ve kurumsal uygulamalar icin iletisim bilgileri.',
+    baslik: sayfa?.baslik || 'Iletisim',
+    seo: sayfa?.seo,
+    yol: '/iletisim',
+  })
+}
+
 export default async function IletisimSayfasi() {
-  const [siteAyarlari, iletisim] = await Promise.all([siteAyarlariGetir(), iletisimBilgileriGetir()])
+  const [siteAyarlari, iletisim, altBilgi, sayfa, sagReklamlar] = await Promise.all([
+    siteAyarlariGetir(),
+    iletisimBilgileriGetir(),
+    altBilgiGetir(),
+    sayfaGetir('iletisim'),
+    siteReklamlariniGetir('iletisim_sag'),
+  ])
+
+  const baslik = sayfa?.baslik || 'Iletisim'
+  const solGorselUrl = medyaUrlAl(iletisim.sol_gorsel as never, 'buyuk')
+  const satirlar = [
+    iletisim.eposta || siteAyarlari.eposta,
+    iletisim.telefon || siteAyarlari.telefon,
+    iletisim.adres || siteAyarlari.adres,
+  ].filter((satir): satir is string => Boolean(satir))
 
   return (
-    <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-24 pt-32 md:grid-cols-[0.9fr,1.1fr] md:px-8">
-      <div>
-        <BolumBasligi
-          aciklama="Adet, yuzey tipi, teslim suresi veya kurumsal proje detaylarini paylasin; dogru uretim planiyla donelim."
-          baslik="Teklif ve kesif gorusmeleri icin iletisim."
-          etiket="Iletisim"
-        />
-        <div className="mt-10 space-y-4 text-sm leading-7 text-slate-600">
-          <p>Telefon: {iletisim.telefon || siteAyarlari.telefon}</p>
-          <p>E-posta: {iletisim.eposta || siteAyarlari.eposta}</p>
-          <p>Adres: {iletisim.adres || siteAyarlari.adres}</p>
-          {iletisim.calisma_saatleri ? <p>Calisma Saatleri: {iletisim.calisma_saatleri}</p> : null}
-        </div>
+    <section className="mx-auto grid max-w-[1760px] items-center gap-8 px-5 pb-10 pt-12 md:px-8 lg:grid-cols-[3fr_4fr_2fr] lg:gap-12 lg:px-[64px]">
+      <div className="relative aspect-square w-full overflow-hidden">
+        {solGorselUrl ? (
+          <Image
+            alt={`${baslik} sol gorseli`}
+            className="object-fill"
+            fill
+            sizes="(max-width: 1024px) 100vw, 33vw"
+            src={solGorselUrl}
+          />
+        ) : null}
       </div>
-      <TeklifFormu konu="Iletisim Formu" />
+
+      <div className="text-left lg:-ml-8 xl:-ml-14">
+        <h1 className="font-parisienne relative -top-3 rotate-[-3deg] text-[clamp(3.6rem,7vw,7.5rem)] leading-[0.78] tracking-[0.01em] text-[var(--atolyen-blue)] lg:-top-5">
+          {baslik}
+        </h1>
+
+        {satirlar.length ? (
+          <div className="mt-8 max-w-[46rem] space-y-0 text-lg font-medium leading-snug text-slate-700 md:text-xl">
+            {satirlar.map((satir, index) => (
+              <p className="border-b border-[var(--atolyen-blue)]/45 py-3" key={`${satir}-${index}`}>
+                {satir}
+              </p>
+            ))}
+          </div>
+        ) : null}
+
+        {altBilgi.linkler?.length ? (
+          <div className="mt-2 max-w-[46rem] space-y-0 text-lg font-medium leading-snug text-slate-700 md:text-xl">
+            {altBilgi.linkler.map((link, index) => (
+              <Link
+                className="block border-b border-[var(--atolyen-blue)]/45 py-3 transition-colors hover:text-[var(--atolyen-blue)]"
+                href={link.baglanti || '/'}
+                key={`${link.etiket}-${link.baglanti}-${index}`}
+              >
+                {link.etiket}
+              </Link>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      <ReklamAlani boskenGizle className="min-h-[24rem] lg:min-h-[34rem]" kayitlar={sagReklamlar} />
     </section>
   )
 }

@@ -6,6 +6,7 @@ import { Kampanyalar } from '@/koleksiyonlar/kampanyalar'
 import { Medyalar } from '@/koleksiyonlar/medyalar'
 import { PortfoyProjeleri } from '@/koleksiyonlar/portfoy-projeleri'
 import { Sayfalar } from '@/koleksiyonlar/sayfalar'
+import { SiteReklamlari } from '@/koleksiyonlar/site-reklamlari'
 import { UrunKategorileri } from '@/koleksiyonlar/urun-kategorileri'
 import { Urunler } from '@/koleksiyonlar/urunler'
 import { Yoneticiler } from '@/koleksiyonlar/yoneticiler'
@@ -92,6 +93,7 @@ export default buildConfig({
     PortfoyProjeleri,
     Kampanyalar,
     Sayfalar,
+    SiteReklamlari,
     BlogYazilari,
     Yoneticiler,
   ],
@@ -99,6 +101,7 @@ export default buildConfig({
   cors: izinliOriginler,
   csrf: izinliOriginler,
   db: postgresAdapter({
+    push: false,
     pool: {
       connectionString:
         process.env.VERITABANI_URL ||

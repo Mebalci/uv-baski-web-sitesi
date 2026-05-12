@@ -3,32 +3,50 @@ import type { GlobalConfig } from 'payload'
 
 export const SiteAyarlari: GlobalConfig = {
   admin: {
-    description: 'Sitenin genel firma bilgileri ve SEO kimliği bu bölümden yönetilir.',
+    description: 'Sitenin genel firma bilgileri ve SEO kimligi bu bolumden yonetilir.',
     group: 'Genel Ayarlar',
   },
-  label: 'Site Ayarları',
+  label: 'Site Ayarlari',
   fields: [
     {
       admin: {
-        description: 'Header, footer ve tarayıcı başlığında kullanılacak marka adı.',
+        description: 'Header, footer ve tarayici basliginda kullanilacak marka adi.',
       },
-      label: 'Firma Adı',
+      label: 'Firma Adi',
       name: 'firma_adi',
       required: true,
       type: 'text',
     },
     {
       admin: {
-        description: 'Ana sayfa ve meta açıklama alanlarında kullanılabilecek kısa firma özeti.',
+        description: 'Sitede header ve footer alanlarinda gosterilecek logo gorseli.',
       },
-      label: 'Kısa Site Açıklaması',
+      label: 'Site Logosu',
+      name: 'logo',
+      relationTo: 'medyalar',
+      type: 'upload',
+    },
+    {
+      admin: {
+        description: 'Ana sayfa ve meta aciklama alanlarinda kullanilabilecek kisa firma ozeti.',
+      },
+      label: 'Kisa Site Aciklamasi',
       name: 'aciklama',
       required: true,
       type: 'textarea',
     },
     {
       admin: {
-        description: 'Üst bilgi, iletişim alanları ve teklif formlarında referans için kullanılır.',
+        description:
+          'Google Fonts sayfasindan kopyaladiginiz font linkini yapistirin. Ornek: https://fonts.google.com/specimen/Mrs+Saint+Delafield. Bos birakilirsa Parisienne kullanilir.',
+      },
+      label: 'Sayfa Baslik Font Linki',
+      name: 'baslik_font_linki',
+      type: 'text',
+    },
+    {
+      admin: {
+        description: 'Ust bilgi, iletisim alanlari ve teklif formlarinda referans icin kullanilir.',
       },
       label: 'Telefon',
       name: 'telefon',
@@ -36,7 +54,7 @@ export const SiteAyarlari: GlobalConfig = {
     },
     {
       admin: {
-        description: 'İletişim ve bildirim alanlarında kullanılacak ana kurumsal e-posta adresi.',
+        description: 'Iletisim ve bildirim alanlarinda kullanilacak ana kurumsal e-posta adresi.',
       },
       label: 'E-posta',
       name: 'eposta',
@@ -44,7 +62,7 @@ export const SiteAyarlari: GlobalConfig = {
     },
     {
       admin: {
-        description: 'Footer ve iletişim sayfasında gösterilecek açık adres bilgisi.',
+        description: 'Footer ve iletisim sayfasinda gosterilecek acik adres bilgisi.',
       },
       label: 'Adres',
       name: 'adres',

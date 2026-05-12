@@ -7,3 +7,5 @@ coverage
 dist
 payload-generated-schema.graphql
 *.log
+tsconfig.tsbuildinfo
+medyalar/fun-3d-cartoon-bird-illustration*

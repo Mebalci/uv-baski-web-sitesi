@@ -73,6 +73,7 @@ export interface Config {
     portfoy_projeleri: PortfoyProjeleri;
     kampanyalar: Kampanyalar;
     sayfalar: Sayfalar;
+    site_reklamlari: SiteReklamlari;
     blog_yazilari: BlogYazilari;
     yoneticiler: Yoneticiler;
     'payload-kv': PayloadKv;
@@ -88,6 +89,7 @@ export interface Config {
     portfoy_projeleri: PortfoyProjeleriSelect<false> | PortfoyProjeleriSelect<true>;
     kampanyalar: KampanyalarSelect<false> | KampanyalarSelect<true>;
     sayfalar: SayfalarSelect<false> | SayfalarSelect<true>;
+    site_reklamlari: SiteReklamlariSelect<false> | SiteReklamlariSelect<true>;
     blog_yazilari: BlogYazilariSelect<false> | BlogYazilariSelect<true>;
     yoneticiler: YoneticilerSelect<false> | YoneticilerSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -200,7 +202,7 @@ export interface Urunler {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
+   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -324,7 +326,7 @@ export interface UrunKategorileri {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
+   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   one_cikan?: boolean | null;
@@ -403,13 +405,25 @@ export interface PortfoyProjeleri {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
+   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
    * Referansin hangi marka veya musteriye ait oldugunu yazin. Gorunmesini istemiyorsaniz bos birakabilirsiniz.
    */
   musteri_adi?: string | null;
+  /**
+   * Bu proje hangi dinamik sayfalarda gorunsun? Ornek: Baski, Dijital Baski, Sanat, Tasarim. Bir proje birden fazla sayfaya atanabilir.
+   */
+  sayfalar?: (number | Sayfalar)[] | null;
+  /**
+   * Sayfada projelerin ustunde gorunecek bolum basligi. Ayni basligi yazdiginiz projeler ayni bolumde listelenir. Bos birakilirsa "Ornekler" bolumunde gorunur.
+   */
+  sayfa_bolum_basligi?: string | null;
+  /**
+   * Liste kartinda gosterilecek fiyat veya kisa etiket. Ornek: 000.000 TL. Bos birakilirsa kartta fiyat satiri cikmaz.
+   */
+  fiyat_metni?: string | null;
   /**
    * Detay sayfasinda kapak gorseline ek olarak gosterilecek ek proje gorselleri. Once kapak gorselini secin, sonra galeri ekleyin.
    */
@@ -494,6 +508,118 @@ export interface PortfoyProjeleri {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sayfalar".
+ */
+export interface Sayfalar {
+  id: number;
+  /**
+   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
+   */
+  baslik: string;
+  /**
+   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
+   */
+  slug: string;
+  /**
+   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
+   */
+  kisa_aciklama?: string | null;
+  /**
+   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   */
+  kapak_gorseli?: (number | null) | Medyalar;
+  /**
+   * Bu alan sayfanin govde icerigidir. Baskı, Dijital Baskı, Tasarim, Sanat ve benzeri kurumsal hizmet sayfalari burada tek sablonla olusturulur.
+   */
+  icerik?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Bu sayfanin sag reklam alaninda gosterilecek gorsel. Bos birakilirsa genel detay sag reklam alani kullanilir.
+   */
+  sag_reklam_gorseli?: (number | null) | Medyalar;
+  /**
+   * Sag reklam tiklaninca gidilecek adres. Bos birakilirsa reklam sadece gorsel olarak kalir.
+   */
+  sag_reklam_link?: string | null;
+  /**
+   * Aktifse sag reklam baglantisi yeni sekmede acilir.
+   */
+  sag_reklam_yeni_sekmede_acilsin_mi?: boolean | null;
+  /**
+   * Sag reklam gorseli icin alternatif metin.
+   */
+  sag_reklam_alt_metin?: string | null;
+  /**
+   * İçerik sitede görünsün istiyorsanız "Yayında" seçin. Taslak içerikler yalnızca yönetimde görünür.
+   */
+  durum: 'taslak' | 'yayinda';
+  /**
+   * İçeriğin görünmesini istediğiniz tarihi belirler. Boş bırakılırsa kaydedildiği an esas alınır.
+   */
+  yayin_tarihi?: string | null;
+  /**
+   * Liste sıralamasını elle kontrol etmek için kullanılır. Küçük sayı daha yukarıda görünür.
+   */
+  sira_no?: number | null;
+  /**
+   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
+   */
+  seo?: {
+    /**
+     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
+     */
+    seo_baslik?: string | null;
+    /**
+     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
+     */
+    seo_aciklama?: string | null;
+    /**
+     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
+     */
+    kanonik_url?: string | null;
+    /**
+     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
+     */
+    open_graph_gorseli?: (number | null) | Medyalar;
+    /**
+     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
+     */
+    indekslensin_mi?: boolean | null;
+    /**
+     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
+     */
+    yapilandirilmis_veri?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  /**
+   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
+   */
+  seo_kontrol_notu?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "kampanyalar".
  */
 export interface Kampanyalar {
@@ -511,7 +637,7 @@ export interface Kampanyalar {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
+   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -606,44 +732,35 @@ export interface Kampanyalar {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sayfalar".
+ * via the `definition` "site_reklamlari".
  */
-export interface Sayfalar {
+export interface SiteReklamlari {
   id: number;
-  /**
-   * Icerigin ana basligidir. Kartlarda, breadcrumblarda, detay sayfasinda ve cogu zaman SEO basliginin temelinde kullanilir.
-   */
   baslik: string;
   /**
-   * URL icinde kullanilacak kisa isimdir. Yayin sonrasi degistirirseniz mevcut indekslenen adres etkilenebilir; gerekirse 301 yonlendirme planlanmalidir.
+   * Reklamin sitede hangi alanda gosterilecegini belirler.
    */
-  slug: string;
+  konum:
+    | 'anasayfa_sol_ust'
+    | 'anasayfa_hero'
+    | 'anasayfa_sol_alt'
+    | 'anasayfa_alt'
+    | 'detay_sag'
+    | 'hakkimizda_sag'
+    | 'iletisim_sag';
   /**
-   * Kartlarda, liste gorunumunde ve sayfa ustunde ozet olarak kullanilir. SEO aciklamasi bos kalirsa bazen bu alan yedek metin gibi degerlendirilir.
+   * Reklam gorseli bulundugu alana gore responsive olarak genisler, uzar veya kisalir. Kenar kaybi olmaz; gorsel alanin seklini alir. Tasarimi yuklerken yazilari ve onemli ogeleri guvenli bosluk icinde tutun.
    */
-  kisa_aciklama?: string | null;
+  gorsel: number | Medyalar;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
+   * Bos birakilirsa reklam sadece gorsel olarak gosterilir.
    */
-  kapak_gorseli?: (number | null) | Medyalar;
+  link?: string | null;
+  yeni_sekmede_acilsin_mi?: boolean | null;
   /**
-   * Bu alan sayfanin govde icerigidir. Hakkimizda, KVKK, Cerez Politikasi, SSS veya kurumsal tanitim sayfalari burada olusturulur.
+   * Gorsel erisilebilirligi icin alternatif metin.
    */
-  icerik?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  alt_metin?: string | null;
   /**
    * İçerik sitede görünsün istiyorsanız "Yayında" seçin. Taslak içerikler yalnızca yönetimde görünür.
    */
@@ -656,47 +773,6 @@ export interface Sayfalar {
    * Liste sıralamasını elle kontrol etmek için kullanılır. Küçük sayı daha yukarıda görünür.
    */
   sira_no?: number | null;
-  /**
-   * Bu bolum arama motorlarinda gorunen basligi, aciklamayi, canonical adresi ve indeksleme tercihini yonetir.
-   */
-  seo?: {
-    /**
-     * Google sonucunda mavi baglanti olarak gorunur. Sayfa bazli ozgun yazin ve 70 karakteri asmamaya calisin.
-     */
-    seo_baslik?: string | null;
-    /**
-     * Google sonucunda basligin altinda gorunen ozet metindir. 160 karakteri asmayan, tiklamayi tesvik eden bir metin yazin.
-     */
-    seo_aciklama?: string | null;
-    /**
-     * Ayni icerik baska bir URLde de aciliyorsa arama motoruna hangi adresin esas alinacagini belirtir. Bos birakilirsa mevcut sayfa adresi kullanilir.
-     */
-    kanonik_url?: string | null;
-    /**
-     * Sayfa WhatsApp, LinkedIn veya sosyal medyada paylasildiginda gosterilecek kapak gorseli.
-     */
-    open_graph_gorseli?: (number | null) | Medyalar;
-    /**
-     * Kapaliysa sayfa noindex olur, sitemapten cikarilir ve Google bu sayfayi arama sonucunda gostermemelidir.
-     */
-    indekslensin_mi?: boolean | null;
-    /**
-     * Ileri seviye yapilandirilmis veri alanidir. Search Console zengin sonuc testleri icin ozel JSON-LD eklemek istediginizde kullanilir.
-     */
-    yapilandirilmis_veri?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
-  /**
-   * Bu alan editore hizli bir hatirlatma saglar. Ozellikle slug, SEO basligi, aciklama ve indeksleme secimini kontrol edin.
-   */
-  seo_kontrol_notu?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -719,7 +795,7 @@ export interface BlogYazilari {
    */
   kisa_aciklama?: string | null;
   /**
-   * Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.
+   * Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
    */
   kapak_gorseli?: (number | null) | Medyalar;
   /**
@@ -880,6 +956,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sayfalar';
         value: number | Sayfalar;
+      } | null)
+    | ({
+        relationTo: 'site_reklamlari';
+        value: number | SiteReklamlari;
       } | null)
     | ({
         relationTo: 'blog_yazilari';
@@ -1045,6 +1125,9 @@ export interface PortfoyProjeleriSelect<T extends boolean = true> {
   kisa_aciklama?: T;
   kapak_gorseli?: T;
   musteri_adi?: T;
+  sayfalar?: T;
+  sayfa_bolum_basligi?: T;
+  fiyat_metni?: T;
   galeri?: T;
   icerik?: T;
   referans_notu?: T;
@@ -1106,6 +1189,10 @@ export interface SayfalarSelect<T extends boolean = true> {
   kisa_aciklama?: T;
   kapak_gorseli?: T;
   icerik?: T;
+  sag_reklam_gorseli?: T;
+  sag_reklam_link?: T;
+  sag_reklam_yeni_sekmede_acilsin_mi?: T;
+  sag_reklam_alt_metin?: T;
   durum?: T;
   yayin_tarihi?: T;
   sira_no?: T;
@@ -1120,6 +1207,23 @@ export interface SayfalarSelect<T extends boolean = true> {
         yapilandirilmis_veri?: T;
       };
   seo_kontrol_notu?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site_reklamlari_select".
+ */
+export interface SiteReklamlariSelect<T extends boolean = true> {
+  baslik?: T;
+  konum?: T;
+  gorsel?: T;
+  link?: T;
+  yeni_sekmede_acilsin_mi?: T;
+  alt_metin?: T;
+  durum?: T;
+  yayin_tarihi?: T;
+  sira_no?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1216,7 +1320,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Sitenin genel firma bilgileri ve SEO kimliği bu bölümden yönetilir.
+ * Sitenin genel firma bilgileri ve SEO kimligi bu bolumden yonetilir.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site_ayarlari".
@@ -1224,23 +1328,31 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteAyarlari {
   id: number;
   /**
-   * Header, footer ve tarayıcı başlığında kullanılacak marka adı.
+   * Header, footer ve tarayici basliginda kullanilacak marka adi.
    */
   firma_adi: string;
   /**
-   * Ana sayfa ve meta açıklama alanlarında kullanılabilecek kısa firma özeti.
+   * Sitede header ve footer alanlarinda gosterilecek logo gorseli.
+   */
+  logo?: (number | null) | Medyalar;
+  /**
+   * Ana sayfa ve meta aciklama alanlarinda kullanilabilecek kisa firma ozeti.
    */
   aciklama: string;
   /**
-   * Üst bilgi, iletişim alanları ve teklif formlarında referans için kullanılır.
+   * Google Fonts sayfasindan kopyaladiginiz font linkini yapistirin. Ornek: https://fonts.google.com/specimen/Mrs+Saint+Delafield. Bos birakilirsa Parisienne kullanilir.
+   */
+  baslik_font_linki?: string | null;
+  /**
+   * Ust bilgi, iletisim alanlari ve teklif formlarinda referans icin kullanilir.
    */
   telefon?: string | null;
   /**
-   * İletişim ve bildirim alanlarında kullanılacak ana kurumsal e-posta adresi.
+   * Iletisim ve bildirim alanlarinda kullanilacak ana kurumsal e-posta adresi.
    */
   eposta?: string | null;
   /**
-   * Footer ve iletişim sayfasında gösterilecek açık adres bilgisi.
+   * Footer ve iletisim sayfasinda gosterilecek acik adres bilgisi.
    */
   adres?: string | null;
   /**
@@ -1328,11 +1440,11 @@ export interface AltBilgi {
   linkler?:
     | {
         /**
-         * Footer bağlantısında görünen metin.
+         * Footer bağlantısında görünen sosyal medya .
          */
         etiket: string;
         /**
-         * Örnek: /iletisim, /kvkk veya harici bağlantı.
+         * Örnek: /iletisim, /kvkk /https veya harici bağlantı.
          */
         baglanti: string;
         id?: string | null;
@@ -1349,6 +1461,10 @@ export interface AltBilgi {
  */
 export interface IletisimBilgileri {
   id: number;
+  /**
+   * Iletisim sayfasinin sol tarafinda gosterilecek gorsel. Gorsel bulundugu alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.
+   */
+  sol_gorsel?: (number | null) | Medyalar;
   /**
    * Müşterilerin sizi arayacağı ana telefon numarası.
    */
@@ -1369,7 +1485,7 @@ export interface IletisimBilgileri {
   createdAt?: string | null;
 }
 /**
- * Ana sayfadaki hero, bölüm başlıkları, süreç alanı ve teklif çağrısı bu ekrandan yönetilir.
+ * Ana sayfadaki sol metin alani bu ekrandan yonetilir. Reklamlar Site Reklamlari, hizmet kartlari Urun Kategorileri uzerinden duzenlenir.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ana_sayfa_icerigi".
@@ -1377,125 +1493,9 @@ export interface IletisimBilgileri {
 export interface AnaSayfaIcerigi {
   id: number;
   /**
-   * Ana sayfanın ilk ekranında dönen hero slaytlarıdır. Tek kayıt varsa sabit görünür, birden fazla kayıt varsa kaydırmalı alan olur.
-   */
-  hero_kayitlari?:
-    | {
-        /**
-         * Hero üstünde küçük vurgu etiketi olarak görünür. Örnek: Yeni sezon, UV Baskı, Hızlı Teslim.
-         */
-        etiket?: string | null;
-        /**
-         * Hero alanında büyük puntoda görünen ana başlık.
-         */
-        baslik?: string | null;
-        /**
-         * Başlığın altında görünen kısa açıklama metni.
-         */
-        metin?: string | null;
-        /**
-         * Hero arka planında veya sağ bölümünde gösterilecek ana görsel.
-         */
-        gorsel?: (number | null) | Medyalar;
-        /**
-         * Ana aksiyon butonunda görünen metin. Örnek: Teklif Al
-         */
-        birincil_buton_metin?: string | null;
-        /**
-         * Ana buton bağlantısı. Örnek: /iletisim, /urunler veya harici bir URL.
-         */
-        birincil_buton_link?: string | null;
-        /**
-         * İkinci butonda görünen yardımcı metin. Örnek: WhatsApp Yaz
-         */
-        ikincil_buton_metin?: string | null;
-        /**
-         * İkinci butonun yönleneceği bağlantı.
-         */
-        ikincil_buton_link?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Hero altında küçük özet sayılar olarak gösterilir. Örnek: 1200+ Proje, 24 Saat Hızlı Dönüş.
-   */
-  istatistikler?:
-    | {
-        /**
-         * Örnek: 1200+, 18 Yıl, %98
-         */
-        deger?: string | null;
-        /**
-         * Değerin kısa açıklaması.
-         */
-        aciklama?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Ana sayfadaki kategori bölümünün başlığı.
-   */
-  kategori_baslik?: string | null;
-  /**
-   * Kategori bölümünde başlığın altında görünen açıklama.
+   * Ana sayfada sol sutunda reklam alaninin altinda gorunecek metin. Paragraflari bos satirla ayirabilirsiniz.
    */
   kategori_aciklama?: string | null;
-  /**
-   * Öne çıkan ürünler alanının başlığı.
-   */
-  urun_baslik?: string | null;
-  /**
-   * Ürünler bölümünde kullanılacak kısa tanıtım metni.
-   */
-  urun_aciklama?: string | null;
-  /**
-   * Portföy vitrininin başlığı.
-   */
-  portfoy_baslik?: string | null;
-  /**
-   * Portföy bölümünde başlığın altında gösterilecek açıklama.
-   */
-  portfoy_aciklama?: string | null;
-  /**
-   * Ana sayfadaki kampanya bölümünün başlığı.
-   */
-  kampanya_baslik?: string | null;
-  /**
-   * Kampanya alanında kullanılacak kısa açıklama.
-   */
-  kampanya_aciklama?: string | null;
-  /**
-   * Blog veya rehber içerik alanı başlığı.
-   */
-  blog_baslik?: string | null;
-  /**
-   * Blog kartlarının üstünde görünen kısa tanıtım metni.
-   */
-  blog_aciklama?: string | null;
-  /**
-   * Müşteriye nasıl çalıştığınızı anlatan adımlar. Ana sayfadaki süreç bölümünde görünür.
-   */
-  surec_adimlari?:
-    | {
-        /**
-         * Örnek: Talep, Tasarım, Baskı, Teslimat
-         */
-        adim?: string | null;
-        /**
-         * Bu adımda neler yapıldığını anlatan kısa açıklama.
-         */
-        aciklama?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Ana sayfanın teklif çağrısı bölümünün ana başlığı.
-   */
-  teklif_baslik?: string | null;
-  /**
-   * Teklif formunun üstünde kullanılacak yardımcı açıklama.
-   */
-  teklif_aciklama?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1540,7 +1540,9 @@ export interface EntegrasyonAyarlari {
  */
 export interface SiteAyarlariSelect<T extends boolean = true> {
   firma_adi?: T;
+  logo?: T;
   aciklama?: T;
+  baslik_font_linki?: T;
   telefon?: T;
   eposta?: T;
   adres?: T;
@@ -1596,6 +1598,7 @@ export interface AltBilgiSelect<T extends boolean = true> {
  * via the `definition` "iletisim_bilgileri_select".
  */
 export interface IletisimBilgileriSelect<T extends boolean = true> {
+  sol_gorsel?: T;
   telefon?: T;
   eposta?: T;
   adres?: T;
@@ -1609,45 +1612,7 @@ export interface IletisimBilgileriSelect<T extends boolean = true> {
  * via the `definition` "ana_sayfa_icerigi_select".
  */
 export interface AnaSayfaIcerigiSelect<T extends boolean = true> {
-  hero_kayitlari?:
-    | T
-    | {
-        etiket?: T;
-        baslik?: T;
-        metin?: T;
-        gorsel?: T;
-        birincil_buton_metin?: T;
-        birincil_buton_link?: T;
-        ikincil_buton_metin?: T;
-        ikincil_buton_link?: T;
-        id?: T;
-      };
-  istatistikler?:
-    | T
-    | {
-        deger?: T;
-        aciklama?: T;
-        id?: T;
-      };
-  kategori_baslik?: T;
   kategori_aciklama?: T;
-  urun_baslik?: T;
-  urun_aciklama?: T;
-  portfoy_baslik?: T;
-  portfoy_aciklama?: T;
-  kampanya_baslik?: T;
-  kampanya_aciklama?: T;
-  blog_baslik?: T;
-  blog_aciklama?: T;
-  surec_adimlari?:
-    | T
-    | {
-        adim?: T;
-        aciklama?: T;
-        id?: T;
-      };
-  teklif_baslik?: T;
-  teklif_aciklama?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

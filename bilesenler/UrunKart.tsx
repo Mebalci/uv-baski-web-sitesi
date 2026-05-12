@@ -34,7 +34,7 @@ export function UrunKart({
         {gorselUrl ? (
           <Image
             alt={baslik}
-            className="object-cover transition duration-500 ease-out group-hover:scale-[1.02]"
+            className="object-fill transition duration-500 ease-out group-hover:scale-[1.02]"
             fill
             sizes="(max-width: 1024px) 100vw, 30vw"
             src={gorselUrl}

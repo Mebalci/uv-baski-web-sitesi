@@ -56,7 +56,7 @@ export function metadataOlustur({
         },
       ],
       locale: 'tr_TR',
-      siteName: 'Nova UV Baski',
+      siteName: 'UVAtolyen',
       title: nihaiBaslik,
       type: 'website',
       url: sayfaUrl,

@@ -241,7 +241,7 @@ function dugumleriRenderEt(dugumler?: ZenginMetinDugumu[]): ReactNode {
           <div className="relative min-h-[18rem] w-full">
             <Image
               alt={gorsel.alt}
-              className="object-cover"
+              className="object-fill"
               fill
               sizes="(max-width: 1024px) 100vw, 900px"
               src={gorsel.url}

@@ -11,9 +11,12 @@ export function TeklifFormu({ konu }: TeklifFormuProps) {
   const [hata, setHata] = useState<string | null>(null)
   const [bekleniyor, gecisBaslat] = useTransition()
 
+  const inputClassName =
+    'w-full border-b-2 border-[var(--atolyen-blue)] bg-transparent px-0 py-4 text-sm font-bold uppercase tracking-wide text-slate-900 outline-none transition placeholder:text-slate-900/70 focus:border-slate-950'
+
   return (
     <form
-      className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(15,23,42,0.05)] sm:p-8"
+      className="w-full bg-transparent"
       onSubmit={(event) => {
         event.preventDefault()
 
@@ -44,54 +47,73 @@ export function TeklifFormu({ konu }: TeklifFormuProps) {
       }}
     >
       <input defaultValue={konu} name="konu" type="hidden" />
-      <input autoComplete="off" className="hidden" name="website" tabIndex={-1} type="text" />
+      <input
+        autoComplete="off"
+        className="hidden"
+        name="website"
+        tabIndex={-1}
+        type="text"
+      />
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <input
-          className="w-full rounded-[1rem] border border-slate-200 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white"
+          className={inputClassName}
           name="ad"
-          placeholder="Ad Soyad"
+          placeholder="AD SOYAD"
           required
           minLength={2}
         />
+
         <input
-          className="w-full rounded-[1rem] border border-slate-200 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white"
+          className={inputClassName}
           name="eposta"
-          placeholder="E-posta"
+          placeholder="E-POSTA"
           required
           type="email"
         />
       </div>
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
+
+      <div className="mt-6 grid gap-6 md:grid-cols-2">
         <input
-          className="w-full rounded-[1rem] border border-slate-200 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white"
+          className={inputClassName}
           name="telefon"
-          placeholder="Telefon"
+          placeholder="TELEFON"
         />
+
         <input
-          className="w-full rounded-[1rem] border border-slate-200 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white"
+          className={inputClassName}
           name="sirket"
-          placeholder="Sirket"
+          placeholder="SIRKET"
         />
       </div>
+
       <textarea
-        className="mt-4 min-h-36 w-full rounded-[1rem] border border-slate-200 bg-slate-50 px-4 py-3 text-slate-950 outline-none transition focus:border-slate-300 focus:bg-white"
+        className="mt-6 min-h-36 w-full resize-none border-b-2 border-[var(--atolyen-blue)] bg-transparent px-0 py-4 text-sm font-bold uppercase tracking-wide text-slate-900 outline-none transition placeholder:text-slate-900/70 focus:border-slate-950"
         name="mesaj"
-        placeholder="Talebinizi, adet bilgisini ve termin beklentinizi yazin."
+        placeholder="TALEBINIZI, ADET BILGISINI VE TERMIN BEKLENTINIZI YAZIN."
         required
         minLength={10}
       />
 
       <button
-        className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white transition-transform duration-200 ease-out hover:-translate-y-0.5"
+        className="mt-8 inline-flex w-full items-center justify-center bg-[var(--atolyen-blue)] px-5 py-4 text-sm font-bold uppercase tracking-wide text-white transition-all duration-300 hover:bg-slate-950 disabled:cursor-not-allowed disabled:opacity-60"
         disabled={bekleniyor}
         type="submit"
       >
-        {bekleniyor ? 'Gonderiliyor...' : 'Talebi Gonder'}
+        {bekleniyor ? 'GONDERILIYOR...' : 'TALEBI GONDER'}
       </button>
 
-      {durum ? <p className="mt-4 text-sm text-emerald-700">{durum}</p> : null}
-      {hata ? <p className="mt-4 text-sm text-rose-600">{hata}</p> : null}
+      {durum ? (
+        <p className="mt-4 border-l-4 border-emerald-600 pl-4 text-sm font-semibold text-emerald-700">
+          {durum}
+        </p>
+      ) : null}
+
+      {hata ? (
+        <p className="mt-4 border-l-4 border-rose-600 pl-4 text-sm font-semibold text-rose-600">
+          {hata}
+        </p>
+      ) : null}
     </form>
   )
 }

@@ -108,7 +108,7 @@ export function ortakMetinAlanlari(): Field[] {
     {
       admin: {
         description:
-          'Bu icerik icin one cikan ana gorseldir. Liste kartlarinda, detay sayfasinda ve SEO/Open Graph kurgusunda referans gorsel olabilir.',
+          'Bu icerik icin one cikan ana gorseldir. Gorsel kullanildigi alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.',
       },
       label: 'Kapak Gorseli',
       name: 'kapak_gorseli',

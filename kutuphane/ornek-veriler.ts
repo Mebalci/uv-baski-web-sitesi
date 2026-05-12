@@ -3,7 +3,11 @@ export const siteAyarlariOrnek = {
     'Kurumsal markalar icin UV baski, promosyon, yonlendirme ve premium yuzey uygulamalari.',
   adres: 'Maslak, Istanbul',
   eposta: 'merhaba@novauvbaski.com',
+  baslik_font_adi: 'Parisienne',
+  baslik_font_css_url: 'https://fonts.googleapis.com/css2?family=Parisienne&display=swap',
+  baslik_font_family: '',
   firma_adi: 'Nova UV Baski',
+  logo: null,
   telefon: '+90 212 555 11 22',
   seo: {
     seo_aciklama:
@@ -12,10 +16,26 @@ export const siteAyarlariOrnek = {
   },
 }
 
+export const anaSayfaIcerigiOrnek = {
+  kategori_aciklama:
+    'Fikrin tasarimla bulustugu, hayalin uretime donustugu yaratici bir atolyedir. Her projeye ozgun bir bakis acisiyla yaklasir, markalarin kimligini en dogru sekilde yansitacak cozumler uretiriz. Tasarim bizim icin sadece bir baslangic degil, guclu bir hikayenin ilk adimidir.\n\nDijital baskidan matbaa cozumlerine, serigrafiden promosyon urunlerine kadar genis uretim gucumuzle fikirlerinizi somutlastiriyoruz. Her detayi titizlikle ele alir, kaliteyi ve estetigi bir araya getirerek markanizi gorunur kilacak etkili isler ortaya koyariz.\n\nTablo tasarimi ve uygulamalarimizla mekanlara karakter kazandirirken, markalara da guclu bir gorsel dil sunuyoruz. Urettigimiz her is; yaraticilik, deneyim ve teknik ustaligin birlesimidir.\n\nAtolyen; tasarlar, uretir ve iz birakir. Markanizi bir adim one tasiyacak cozumler icin buradayiz.',
+}
+
 export const kategoriOrnekleri = [
   {
     baslik: 'Promosyon Urunleri',
     kisa_aciklama: 'Kurumsal etkinlikler, bayi aglari ve kampanyalar icin olceklenebilir uretim.',
+    kart_el_yazisi_baslik: 'Promosyon',
+    kart_gorseli: null,
+    kapak_gorseli: null,
+    kart_link_metni: 'Incele',
+    kart_logo_gosterilsin_mi: true,
+    detay_el_yazisi_baslik: 'Promosyon',
+    detay_sol_gorsel: null,
+    detay_aciklama:
+      'Fikrin tasarimla bulustugu, hayalin uretime donustugu yaratici bir atolye. Her proje ozgun bir bakis acisiyla ele alinir.',
+    detay_liste_basligi: 'Kutu Setler',
+    detay_liste_tipi: 'fiyatli_urun_grid',
     one_cikan: true,
     seo: undefined,
     slug: 'promosyon-urunleri',
@@ -23,6 +43,17 @@ export const kategoriOrnekleri = [
   {
     baslik: 'Magaza Ici Uygulamalar',
     kisa_aciklama: 'Magaza ici gorseller, yonlendirmeler ve sert yuzey baskilari.',
+    kart_el_yazisi_baslik: 'Baski',
+    kart_gorseli: null,
+    kapak_gorseli: null,
+    kart_link_metni: 'Incele',
+    kart_logo_gosterilsin_mi: true,
+    detay_el_yazisi_baslik: 'Baski',
+    detay_sol_gorsel: null,
+    detay_aciklama:
+      'Dijital baskidan matbaa cozumlerine kadar genis uretim gucumuzle fikirlerinizi somutlastiriyoruz.',
+    detay_liste_basligi: 'Baski Ornekleri',
+    detay_liste_tipi: 'fiyatsiz_ornek_grid',
     one_cikan: true,
     seo: undefined,
     slug: 'magaza-ici-uygulamalar',
@@ -30,9 +61,59 @@ export const kategoriOrnekleri = [
   {
     baslik: 'Endustriyel Yuzey Baskilari',
     kisa_aciklama: 'Ahsap, cam, metal ve kompozit yuzeylerde hassas UV baski cozumleri.',
+    kart_el_yazisi_baslik: 'Tasarim',
+    kart_gorseli: null,
+    kapak_gorseli: null,
+    kart_link_metni: 'Incele',
+    kart_logo_gosterilsin_mi: true,
+    detay_el_yazisi_baslik: 'Tasarim',
+    detay_sol_gorsel: null,
+    detay_aciklama:
+      'Tablo tasarimi ve uygulamalarimizla mekanlara karakter kazandirirken markalara da guclu bir gorsel dil sunuyoruz.',
+    detay_liste_basligi: 'Tasarim Alanlarimiz',
+    detay_liste_tipi: 'gorsel_galeri',
     one_cikan: false,
     seo: undefined,
     slug: 'endustriyel-yuzey-baskilari',
+  },
+]
+
+export const reklamOrnekleri = [
+  {
+    alt_metin: 'Site ici reklam alani',
+    baslik: 'Site Ici Reklam Alani',
+    durum: 'yayinda',
+    gorsel: null,
+    konum: 'anasayfa_hero',
+    link: '',
+    yeni_sekmede_acilsin_mi: false,
+  },
+  {
+    alt_metin: 'Site ici reklam alani',
+    baslik: 'Sol Ust Reklam',
+    durum: 'yayinda',
+    gorsel: null,
+    konum: 'anasayfa_sol_ust',
+    link: '',
+    yeni_sekmede_acilsin_mi: false,
+  },
+  {
+    alt_metin: 'Site ici reklam alani',
+    baslik: 'Alt Reklam',
+    durum: 'yayinda',
+    gorsel: null,
+    konum: 'anasayfa_alt',
+    link: '',
+    yeni_sekmede_acilsin_mi: false,
+  },
+  {
+    alt_metin: 'Site ici reklam alani',
+    baslik: 'Detay Sag Reklam',
+    durum: 'yayinda',
+    gorsel: null,
+    konum: 'detay_sag',
+    link: '',
+    yeni_sekmede_acilsin_mi: false,
   },
 ]
 

@@ -2,23 +2,81 @@
 @import '@fontsource/newsreader';
 @import 'tailwindcss';
 
+:root {
+  --atolyen-blue: #155790;
+  --atolyen-footer: #347fb4;
+  --atolyen-heading-font: 'Parisienne', 'Segoe Script', 'Brush Script MT', cursive;
+  --atolyen-ink: #111827;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 28%),
-    radial-gradient(circle at 85% 15%, rgba(226, 232, 240, 0.75), transparent 24%),
-    linear-gradient(180deg, #ffffff, #f4f6f8 45%, #eef2f6 100%);
-  color: #0f172a;
+  background: #ffffff;
+  color: var(--atolyen-ink);
   font-family: 'Manrope Variable', 'Segoe UI', sans-serif;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.font-atolyen-script {
+  font-family: var(--atolyen-heading-font);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.font-parisienne {
+  font-family: var(--atolyen-heading-font);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.atolyen-cizgili-baslik {
+  display: grid;
+  grid-template-columns: minmax(2rem, 1fr) auto minmax(2rem, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 4rem);
+}
+
+.atolyen-cizgili-baslik::before,
+.atolyen-cizgili-baslik::after {
+  height: 2px;
+  background: var(--atolyen-blue);
+  content: '';
+}
+
+.icerik-paneli {
+  border-block: 2px solid color-mix(in srgb, var(--atolyen-blue) 55%, transparent);
+  padding-block: 1.5rem;
+}
+
+.mini-panel {
+  border-top: 2px solid color-mix(in srgb, var(--atolyen-blue) 70%, transparent);
+  padding-top: 1rem;
+}
+
+.etiket {
+  color: var(--atolyen-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.buton-beyaz {
+  border: 2px solid var(--atolyen-blue);
+  color: var(--atolyen-blue);
+  display: inline-flex;
+  font-weight: 800;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  text-transform: uppercase;
 }
 
 @media (prefers-reduced-motion: reduce) {

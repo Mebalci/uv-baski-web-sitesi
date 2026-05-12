@@ -9,6 +9,16 @@ export const IletisimBilgileri: GlobalConfig = {
   fields: [
     {
       admin: {
+        description:
+          'Iletisim sayfasinin sol tarafinda gosterilecek gorsel. Gorsel bulundugu alana gore responsive olarak genisler, uzar veya kisalir; alanin seklini alir.',
+      },
+      label: 'Sayfa Sol Gorseli',
+      name: 'sol_gorsel',
+      relationTo: 'medyalar',
+      type: 'upload',
+    },
+    {
+      admin: {
         description: 'Müşterilerin sizi arayacağı ana telefon numarası.',
       },
       label: 'Telefon',
