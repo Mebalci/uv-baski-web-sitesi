@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return metadataOlustur({
     aciklama:
       sayfa?.kisa_aciklama || 'UV baski, promosyon urunleri ve kurumsal uygulamalar icin iletisim bilgileri.',
-    baslik: sayfa?.baslik || 'Iletisim',
+    baslik: sayfa?.baslik || 'İletişim',
     seo: sayfa?.seo,
     yol: '/iletisim',
   })
@@ -36,7 +36,7 @@ export default async function IletisimSayfasi() {
     siteReklamlariniGetir('iletisim_sag'),
   ])
 
-  const baslik = sayfa?.baslik || 'Iletisim'
+  const baslik = sayfa?.baslik || 'İletişim'
   const solGorselUrl = medyaUrlAl(iletisim.sol_gorsel as never, 'buyuk')
   const satirlar = [
     iletisim.eposta || siteAyarlari.eposta,
